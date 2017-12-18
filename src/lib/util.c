@@ -61,6 +61,15 @@ void set_state_log(bool state_log) {
 void state_dump(const char *msg) {
 	if (state_log_enabled) {
 		FILE *f = fopen("/tmp/update-state/state", "w");
+// +BB
+		FILE *fl = fopen("/tmp/update-state/state-log", "a");
+		if (fl) {
+			fprintf(fl, "%s\n", msg);
+			fclose(fl);
+		} else {
+			WARN("Could not dump state: %s", strerror(errno));
+		}
+// -BB		
 		if (f) {
 			fprintf(f, "%s\n", msg);
 			fclose(f);
