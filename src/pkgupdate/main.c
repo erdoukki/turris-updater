@@ -118,6 +118,7 @@ static const char *time_load(void) {
 #define GOTO_CLEANUP do { if (replan) goto REPLAN_CLEANUP; else goto CLEANUP; } while(false)
 
 int main(int argc, char *argv[]) {
+	printf("BB: start of main()");
 	// Some setup of the machinery
 	log_stderr_level(LL_INFO);
 	log_syslog_level(LL_INFO);
