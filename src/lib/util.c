@@ -56,6 +56,15 @@ bool state_log_enabled = false;
 
 void set_state_log(bool state_log) {
 	state_log_enabled = state_log;
+// +BB cleanup state-log
+	FILE *fl = fopen("/tmp/update-state/state-log", "w");
+	if (fl) {
+		fprint(fl, "New  state log:");
+		fclose(fl);
+	} else {
+			WARN("Could not create statelog: %s", strerror(errno));
+		}
+// -BB	
 }
 
 void state_dump(const char *msg) {
@@ -117,6 +126,9 @@ void log_internal(enum log_level level, const char *file, size_t line, const cha
 		state_dump("error");
 		err_dump(msg);
 	}
+// BB+	
+	state_dump(msg);
+// BB-
 }
 
 bool would_log(enum log_level level) {
