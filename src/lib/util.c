@@ -59,7 +59,7 @@ void set_state_log(bool state_log) {
 // +BB cleanup state-log
 	FILE *fl = fopen("/tmp/update-state/state-log", "w");
 	if (fl) {
-		fprint(fl, "New  state log:");
+		fprintf(fl, "New  state log:");
 		fclose(fl);
 	} else {
 			WARN("Could not create statelog: %s", strerror(errno));
