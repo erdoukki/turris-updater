@@ -79,6 +79,10 @@ local function pkg_unpack(operations, status)
 	local plan = {}
 	local cleanup_actions = {}
 	for _, op in ipairs(operations) do
+		-- +BB reporting
+		INFO("BB: unpacking package " .. op.name .. ", action: " .. op.op)
+		log_event("BB", "unpacking package " .. op.name .. ", action: " .. op.op)
+		-- -BB
 		if op.op == "remove" then
 			if status[op.name] then
 				to_remove[op.name] = true
@@ -161,6 +165,10 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Build list of all configs and steal from not-installed
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
+			-- +BB reporting
+			INFO("BB: build list, package " .. op.name .. ", action: " .. op.op)
+			log_event("BB", "build list, package " .. op.name .. ", action: " .. op.op)
+			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
 			utils.table_merge(all_configs, op.old_configs)
@@ -168,6 +176,10 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	end
 	-- Go through the list once more and perform the prepared operations
 	for _, op in ipairs(plan) do
+		-- +BB reporting
+		INFO("BB: perform, package " .. op.name .. ", action: " .. op.op)
+		log_event("BB", "perform, package " .. op.name .. ", action: " .. op.op)
+		-- -BB
 		if op.op == "install" then
 			state_dump("install")
 			log_event("I", op.control.Package .. " " .. op.control.Version)
@@ -198,6 +210,10 @@ end
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
 	for _, op in ipairs(plan) do
+		-- +BB reporting
+		INFO("BB: post-install, package " .. op.name .. ", action: " .. op.op)
+		log_event("BB", "post-install, package " .. op.name .. ", action: " .. op.op)
+		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
 		elseif op.op == "remove" and not to_install[op.name] and utils.arr2set(utils.multi_index(status, op.name, 'Status') or {})['installed'] then
@@ -224,6 +240,10 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	state_dump("remove")
 	backend.pkg_cleanup_files(removes, all_configs)
 	for _, op in ipairs(plan) do
+		-- +BB reporting
+		INFO("BB: remove, package " .. op.name .. ", action: " .. op.op)
+		log_event("BB", "remove, package " .. op.name .. ", action: " .. op.op)
+		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
 		end
