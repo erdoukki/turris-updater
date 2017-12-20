@@ -165,7 +165,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Build list of all configs and steal from not-installed
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
-			for k, v in pairs(op) do io.write (k, v) end
+			for k, v in pairs(op) do io.write (k .. "\n") end
 			-- +BB reporting
 			INFO("BB: build list, package " .. op.name .. ", action: " .. op.op)
 			log_event("BB", "build list, package " .. op.name .. ", action: " .. op.op)
