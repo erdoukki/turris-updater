@@ -215,8 +215,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		for k, v in pairs(op) do io.write (k .. "\n") end
 		io.write("-------------------------------\n")
 		-- +BB reporting
-		INFO("BB: post-install, package " .. op.name .. ", action: " .. op.op)
-		log_event("BB", "post-install, package " .. op.name .. ", action: " .. op.op)
+		INFO("BB: post-install, package " .. op.dir .. ", action: " .. op.op)
+		log_event("BB", "post-install, package " .. op.dir .. ", action: " .. op.op)
 		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
