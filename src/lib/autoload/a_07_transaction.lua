@@ -211,9 +211,9 @@ end
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
 	for _, op in ipairs(plan) do
-		io.write("-------------------------------\n")
-		for k, v in pairs(op) do io.write (k .. "\n") end
-		io.write("-------------------------------\n")
+	--	io.write("-------------------------------\n")
+	--	for k, v in pairs(op) do io.write (k .. "\n") end
+	--	io.write("-------------------------------\n")
 		-- +BB reporting
 		INFO("BB: post-install, package " .. op.dir .. ", action: " .. op.op)
 		log_event("BB", "post-install, package " .. op.dir .. ", action: " .. op.op)
@@ -245,8 +245,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	backend.pkg_cleanup_files(removes, all_configs)
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: remove, package " .. op.name .. ", action: " .. op.op)
-		log_event("BB", "remove, package " .. op.name .. ", action: " .. op.op)
+		INFO("BB: remove, package " .. op.dir .. ", action: " .. op.op)
+		log_event("BB", "remove, package " .. op.dir .. ", action: " .. op.op)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
