@@ -167,8 +167,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		if op.op == "install" then
 		--	for k, v in pairs(op) do io.write (k .. "\n") end
 			-- +BB reporting
-			INFO("BB: build list, package " .. op.dir .. ", action: " .. op.op)
-			log_event("BB", "build list, package " .. op.dir .. ", action: " .. op.op)
+			INFO("BB: build list, package " .. op.control.Package .. " " .. op.control.Version .. ", action: " .. op.op)
+			log_event("BB", "build list, package " .. op.control.Package .. " " .. op.control.Version .. ", action: " .. op.op)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -178,8 +178,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Go through the list once more and perform the prepared operations
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: perform, package " .. op.name .. ", action: " .. op.op)
-		log_event("BB", "perform, package " .. op.name .. ", action: " .. op.op)
+		INFO("BB: perform, package " .. op.control.Package .. " " .. op.control.Version .. ", action: " .. op.op)
+		log_event("BB", "perform, package " .. op.control.Package .. " " .. op.control.Version .. ", action: " .. op.op)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
