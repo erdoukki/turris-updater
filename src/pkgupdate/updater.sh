@@ -25,6 +25,9 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# +BB - clean state-log
+echo "" > /tmp/update-state/state-log
+
 . /lib/functions.sh
 
 # Posix and Busybox compatible timeout function
