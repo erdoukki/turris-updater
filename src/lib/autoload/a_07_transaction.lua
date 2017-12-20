@@ -211,6 +211,9 @@ end
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
 	for _, op in ipairs(plan) do
+		io.write("-------------------------------\n")
+		for k, v in pairs(op) do io.write (k .. "\n") end
+		io.write("-------------------------------\n")
 		-- +BB reporting
 		INFO("BB: post-install, package " .. op.name .. ", action: " .. op.op)
 		log_event("BB", "post-install, package " .. op.name .. ", action: " .. op.op)
