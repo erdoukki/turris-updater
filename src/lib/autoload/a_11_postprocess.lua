@@ -34,6 +34,7 @@ local mkdtemp = mkdtemp
 local DBG = DBG
 local WARN = WARN
 local ERROR = ERROR
+local log_event = log_event
 local utils = require "utils"
 local backend = require "backend"
 local requests = require "requests"
