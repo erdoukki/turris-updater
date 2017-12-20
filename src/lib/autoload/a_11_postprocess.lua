@@ -73,6 +73,9 @@ function get_repos()
 		repo.content = {}
 		for subrepo, index_uri in pairs(utils.private(repo).index_uri) do
 			local name = repo.name .. "/" .. index_uri.uri
+		-- +BB report 
+			log_event('R', "get_repo:" .. repo.name)
+		-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)
 				ERROR("Index " .. name .. " is broken (" .. why .. "): " .. tostring(extra))
@@ -158,6 +161,9 @@ function get_content_pkgs()
 	for _, pkg in pairs(requests.known_content_packages) do
 		local content_uri = utils.private(pkg).content_uri
 		table.insert(uris, content_uri)
+		-- +BB report 
+		log_event('R', "get_content_pkg:" .. content_uri)
+		-- -BB
 		local function downloaded(ok, data)
 			if ok then
 				local tmpdir = mkdtemp()
