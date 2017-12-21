@@ -167,8 +167,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		if op.op == "install" then
 		--	for k, v in pairs(op) do io.write (k .. "\n") end
 			-- +BB reporting
-			INFO("BB: build list, package " .. op.control.Package .. " " .. op.control.Version)
-			log_event("BB", "build list, package " .. op.control.Package .. " " .. op.control.Version)
+			INFO("BB: build list for package " .. op.control.Package .. " " .. op.control.Version)
+			log_event("BB", "build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -178,8 +178,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Go through the list once more and perform the prepared operations
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: perform, package " .. op.control.Package .. " " .. op.control.Version)
-		log_event("BB", "perform, package " .. op.control.Package .. " " .. op.control.Version)
+		INFO("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
+		log_event("BB", " Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -211,12 +211,11 @@ end
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
 	for _, op in ipairs(plan) do
-	--	io.write("-------------------------------\n")
-	--	for k, v in pairs(op) do io.write (k .. "\n") end
-	--	io.write("-------------------------------\n")
 		-- +BB reporting
-		INFO("BB: post-install, package " .. op.control.Package)
-		log_event("BB", "post-install, package " .. op.control.Package)
+		local msg = "Run post-install for "
+		if op.op == "remove" then msg = "Remove " end
+		INFO("BB: " msg .. package " .. op.control.Package)
+		log_event("BB", msg .. package " .. op.control.Package)
 		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
