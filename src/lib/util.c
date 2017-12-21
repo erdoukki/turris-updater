@@ -208,6 +208,7 @@ void exec_dir(struct events *events, const char *dir) {
 		char *fpath = aprintf("%s/%s", dir, namelist[i]->d_name);
 		if (!access(fpath, X_OK)) {
 			struct wait_id wid = run_command(events, exec_dir_callback, NULL, fpath, 0, NULL, -1, -1, fpath, (const char *)NULL);
+			INFO("Running [post|pre]update hook: ", fpath);
 			events_wait(events, 1, &wid);
 		} else
 			DBG("File not executed, not executable: %s", namelist[i]->d_name);
