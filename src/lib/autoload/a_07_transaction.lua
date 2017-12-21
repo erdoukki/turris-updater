@@ -214,8 +214,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		-- +BB reporting
 		local msg = "Run post-install for "
 		if op.op == "remove" then msg = "Remove " end
-		INFO("BB: " .. msg .. package .. op.control.Package)
-		log_event("BB", msg .. package .. op.control.Package)
+		INFO("BB: " .. msg .. " package " .. op.control.Package)
+		log_event("BB", msg .. " package " .. op.control.Package)
 		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
