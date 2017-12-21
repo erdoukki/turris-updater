@@ -167,8 +167,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		if op.op == "install" then
 		--	for k, v in pairs(op) do io.write (k .. "\n") end
 			-- +BB reporting
-			INFO("BB: build list for package " .. op.control.Package .. " " .. op.control.Version)
-			log_event("BB", "build list for package " .. op.control.Package .. " " .. op.control.Version)
+			INFO("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version)
+			log_event("BB", "Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -212,10 +212,10 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	INFO("Running post-install and post-rm scripts")
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		local msg = "Run post-install for "
-		if op.op == "remove" then msg = "Remove " end
-		INFO("BB: " .. msg .. " package " .. op.control.Package)
-		log_event("BB", msg .. " package " .. op.control.Package)
+		local msg = "Run post-install for"
+		if op.op == "remove" then msg = "Remove" end
+		INFO("BB: " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
+		log_event("BB", msg .. " package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
@@ -244,8 +244,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	backend.pkg_cleanup_files(removes, all_configs)
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: Cleanup after package " .. op.control.Package)
-		log_event("BB", "Cleanup after package " .. op.control.Package)
+		INFO("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
+		log_event("BB", "Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
