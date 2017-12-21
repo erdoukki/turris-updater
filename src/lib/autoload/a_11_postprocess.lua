@@ -77,7 +77,7 @@ function get_repos()
 			local name = repo.name .. "/" .. index_uri.uri
 		-- +BB report 
 			log_event("G", "get_repo: " .. name)
-			INFO("Getting repo" .. name)
+			INFO("Getting repo " .. name)
 		-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)

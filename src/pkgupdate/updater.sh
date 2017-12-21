@@ -25,9 +25,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# +BB - clean state-log
-echo "" > /tmp/update-state/state-log
-
 . /lib/functions.sh
 
 # Posix and Busybox compatible timeout function
@@ -169,6 +166,8 @@ updater_lock() {
 	rm -f "$ERROR_FILE" "$LOG_FILE"
 	echo startup >"$STATE_FILE"
 	echo $$ >"$PID_FILE"
+	# +BB - clean state-log
+	echo "" > "$STATE_DIR/state-log"
 }
 
 # Cleanup to remove various files from state directory on updater exit
