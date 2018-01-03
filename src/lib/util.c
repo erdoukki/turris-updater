@@ -113,7 +113,7 @@ void log_internal(enum log_level level, const char *file, size_t line, const cha
 	vsprintf(msg, format, args);
 	va_end(args);
 // BB+	
-	state_dump(msg);
+//	state_dump(msg);
 // BB-
 	if (do_syslog) {
 		if (!syslog_opened)

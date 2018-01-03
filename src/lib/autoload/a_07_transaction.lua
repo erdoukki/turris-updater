@@ -81,7 +81,7 @@ local function pkg_unpack(operations, status)
 	for _, op in ipairs(operations) do
 		-- +BB reporting
 		INFO("BB: unpacking package " .. op.name)
-		log_event("BB", "unpacking package " .. op.name)
+	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
 			if status[op.name] then
@@ -165,10 +165,9 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Build list of all configs and steal from not-installed
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
-		--	for k, v in pairs(op) do io.write (k .. "\n") end
 			-- +BB reporting
 			INFO("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version)
-			log_event("BB", "Build list for package " .. op.control.Package .. " " .. op.control.Version)
+		--	log_event("BB", "Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -179,7 +178,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		INFO("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
-		log_event("BB", " Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
+	--	log_event("BB", " Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -215,7 +214,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		local msg = "Run post-install for"
 		if op.op == "remove" then msg = "Remove" end
 		INFO("BB: " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
-		log_event("BB", msg .. " package " .. op.control.Package .. " " .. op.control.Version)
+	--	log_event("BB", msg .. " package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			script(errors_collected, op.control.Package, "postinst", "configure")
@@ -245,7 +244,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		INFO("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
-		log_event("BB", "Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
+	--	log_event("BB", "Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
