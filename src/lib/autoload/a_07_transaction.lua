@@ -80,7 +80,7 @@ local function pkg_unpack(operations, status)
 	local cleanup_actions = {}
 	for _, op in ipairs(operations) do
 		-- +BB reporting
-		INFO("BB: unpacking package " .. op.name)
+		INFO("BB: Unpacking package " .. op.name)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then

@@ -76,8 +76,8 @@ function get_repos()
 		for subrepo, index_uri in pairs(utils.private(repo).index_uri) do
 			local name = repo.name .. "/" .. index_uri.uri
 		-- +BB report 
-			log_event("G", "get_repo: " .. name)
-			INFO("Getting repo " .. name)
+			-- log_event("G", "get_repo: " .. name)
+			INFO("Getting repository " .. name)
 		-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)
@@ -165,10 +165,13 @@ function get_content_pkgs()
 		local content_uri = utils.private(pkg).content_uri
 		table.insert(uris, content_uri)
 		-- +BB report 
-		log_event('G', "get_content_pkg:" .. content_uri)
+		-- log_event('G', "get_content_pkg:" .. content_uri)
 		-- -BB
 		local function downloaded(ok, data)
 			if ok then
+				-- +BB
+				INFO("BB: Downloaded package " .. pkg.name)
+				-- -BB
 				local tmpdir = mkdtemp()
 				local pkg_dir = backend.pkg_unpack(data, tmpdir)
 				local _, _, _, control = backend.pkg_examine(pkg_dir)
@@ -529,12 +532,12 @@ end
 
 function run()
 
-	INFO("BB: calling get_repos")
+	-- INFO("BB: calling get_repos")
 	local repo_errors = get_repos()
 	if repo_errors then
 		WARN("Not all repositories are available")
 	end
-	INFO("BB: calling get_content_pkgs")
+	-- INFO("BB: calling get_content_pkgs")
 	get_content_pkgs()
 	pkg_aggregate()
 end
