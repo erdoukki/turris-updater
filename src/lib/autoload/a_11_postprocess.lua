@@ -166,6 +166,7 @@ function get_content_pkgs()
 		table.insert(uris, content_uri)
 		-- +BB report 
 		-- log_event('G', "get_content_pkg:" .. content_uri)
+		INFO("BB: Get content for package " .. pkg.name .. "(shoould be followed by download)")
 		-- -BB
 		local function downloaded(ok, data)
 			if ok then
