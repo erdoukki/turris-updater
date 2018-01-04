@@ -531,13 +531,10 @@ function pkg_aggregate()
 end
 
 function run()
-
-	-- INFO("BB: calling get_repos")
 	local repo_errors = get_repos()
 	if repo_errors then
 		WARN("Not all repositories are available")
 	end
-	-- INFO("BB: calling get_content_pkgs")
 	get_content_pkgs()
 	pkg_aggregate()
 end
