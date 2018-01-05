@@ -68,6 +68,9 @@ FILE *bb_approval_file = NULL;
 
 static bool approved(struct interpreter *interpreter, const char *approval_file, const char **approvals, size_t approval_count) {
 	fputs("testing if it works+\n", bb_approval_file);
+	fputs(approval_file, bb_approval_file);
+	fputc('\n', bb_approval_file);
+
 	if (!approval_file)
 		// We don't need to ask for approval.
 		return true;
