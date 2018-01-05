@@ -459,14 +459,18 @@ function queue_install(filename)
 end
 
 function queue_install_downloaded(data, name, version, modifier)
-	table.insert(queue, {
-		op = "install",
-		data = data,
-		name = name,
-		version = version,
-		reboot = modifier.reboot,
-		replan = modifier.replan
-	})
+	if name == "updater-ng" then
+		INFO("BB: Ignoring updater")
+	else
+		table.insert(queue, {
+			op = "install",
+			data = data,
+			name = name,
+			version = version,
+			reboot = modifier.reboot,
+			replan = modifier.replan
+		})
+	end
 end
 
 local function queued_tasks(extensive)

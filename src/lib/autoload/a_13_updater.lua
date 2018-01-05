@@ -110,13 +110,6 @@ function prepare(entrypoint)
 							error(utils.exception("corruption", "The sha256 sum of " .. task.name .. " does not match"))
 						end
 					end
-					-- +BB
-					if task.name == "updater-ng" then
-						INFO("BB: Let's hope that installation of updater is ignored.")
-					else	
-						transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier)
-					end
-					-- -BB
 				else
 					error(data)
 				end
