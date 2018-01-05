@@ -127,8 +127,11 @@ int main(int argc, char *argv[]) {
 	args_backup(argc, (const char **)argv);
 
 	// BB: I need to check approvals, so let's collect some debug into a file
+	INFO("BB:segfault?1");
 	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
+	INFO("BB:segfault?2");
 	fputs("testing if it works+\n", bb_approval_file);
+	INFO("BB:segfault?3");
 	// --
 
 	// Parse the arguments
