@@ -286,7 +286,7 @@ packages. Then it shall mutate into a parsed repository object, but
 until then, it is just a stupid data structure without any methods.
 ]]
 function repository(result, context, name, repo_uri, extra)
-	INFO("BB getting repository " name .. " from " .. repo_uri)
+	INFO("BB getting repository " .. name .. " from " .. repo_uri)
 	-- Catch possible typos
 	extra = allowed_extras_check_type(allowed_repository_extras, 'repository', extra or {})
 	extra_check_verification("repository", extra)
