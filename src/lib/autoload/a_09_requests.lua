@@ -35,6 +35,7 @@ local utils = require "utils"
 local uri = require "uri"
 local DBG = DBG
 local WARN = WARN
+local INFO = INFO
 
 module "requests"
 
