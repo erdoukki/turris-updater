@@ -92,12 +92,12 @@ function prepare(entrypoint)
 	for _, task in ipairs(tasks) do
 		if task.action == "require" then
 			if task.package.data then -- package had content extra field and we already have data downloaded
-				INFO("Queue install of " .. task.name .. "//" .. task.package.Version)
+				INFO("1Queue install of " .. task.name .. "//" .. task.package.Version)
 				transaction.queue_install_downloaded(task.package.data, task.name, task.package.Version, task.modifier)
 			else
 				local ok, data = task.real_uri:get()
 				if ok then
-					INFO("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
+					INFO("2Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
 					if task.package.MD5Sum then
 						local sum = md5(data)
 						if sum ~= task.package.MD5Sum then
