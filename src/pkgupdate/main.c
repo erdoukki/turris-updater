@@ -67,7 +67,7 @@ const char *bb_approval_filename = "/etc/tmp/update-state/bb-approvals-file";
 const char *bb_approval_file = NULL;
 
 static bool approved(struct interpreter *interpreter, const char *approval_file, const char **approvals, size_t approval_count) {
-	fputs("testing if it works\n", bb_approval_file);
+	fputs("testing if it works+\n", bb_approval_file);
 	if (!approval_file)
 		// We don't need to ask for approval.
 		return true;
@@ -128,6 +128,7 @@ int main(int argc, char *argv[]) {
 
 	// BB: I need to check approvals, so let's collect some debug into a file
 	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
+	fputs("testing if it works+\n", bb_approval_file);
 	// --
 
 	// Parse the arguments
