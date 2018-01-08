@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
 	INFO("BB:segfault?1");
 	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
 	INFO("BB:segfault?2");
-	fputs("testing if it works+", bb_approval_file);
+	fputs("testing if it works in main()", bb_approval_file);
 	INFO("BB:segfault?3");
 	// --
 
