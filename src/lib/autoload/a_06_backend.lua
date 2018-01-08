@@ -47,6 +47,7 @@ local ls = ls
 local md5 = md5
 local sha256 = sha256
 local DBG = DBG
+local INFO = INFO
 local WARN = WARN
 local utils = require "utils"
 local locks = require "locks"
