@@ -72,12 +72,10 @@ static bool approved(struct interpreter *interpreter, const char *approval_file,
 //	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	fputs("testing if it works+\n", bb_file);
 	INFO("BB: approved()2");
-	fputs(approval_file, bb_file);
-	INFO("BB: approved()3");
+//	fputs(approval_file, bb_file);
+	INFO(approval_file);
 	fputc('\n', bb_file);
-	INFO("BB: approved()4");
-	fputs("^^^aproval file should be above^^^\n", bb_file);
-	INFO("BB: approved()5");
+	INFO("BB: approved()3");
 	fclose(bb_file);
 
 	if (!approval_file)
