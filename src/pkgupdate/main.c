@@ -64,22 +64,21 @@ const char *hook_preupdate = "/etc/updater/hook_preupdate";
 const char *hook_postupdate = "/etc/updater/hook_postupdate";
 const char *hook_reboot_delayed = "/etc/updater/hook_reboot_required";
 const char *bb_approval_filename = "/tmp/update-state/bb-approvals-file";
-FILE *bb_approval_file = NULL;
 
 static bool approved(struct interpreter *interpreter, const char *approval_file, const char **approvals, size_t approval_count) {
 	INFO("BB: approved()0");
-	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
+	FILE *bb_file = fopen(bb_approval_filename, "a");
 	INFO("BB: approved()1");
 //	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
-	fputs("testing if it works+\n", bb_approval_file);
+	fputs("testing if it works+\n", bb_file);
 	INFO("BB: approved()2");
-	fputs(approval_file, bb_approval_file);
+	fputs(approval_file, bb_file);
 	INFO("BB: approved()3");
-	fputc('\n', bb_approval_file);
+	fputc('\n', bb_file);
 	INFO("BB: approved()4");
-	fputs("^^^aproval file should be above^^^\n", bb_approval_file);
+	fputs("^^^aproval file should be above^^^\n", bb_file);
 	INFO("BB: approved()5");
-//	fclose(bb_approval_file);
+	fclose(bb_file);
 
 	if (!approval_file)
 		// We don't need to ask for approval.
@@ -143,7 +142,7 @@ int main(int argc, char *argv[]) {
 	// NOTE to myself: it needs existing directory,m otherwise it will segfault
 	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
 	fputs("testing if it works in main()\n", bb_approval_file);
-//	fclose(bb_approval_file);
+	fclose(bb_approval_file);
 	// --
 
 	// Parse the arguments
