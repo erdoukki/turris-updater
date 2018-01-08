@@ -341,6 +341,7 @@ end
 
 function status_parse()
 	DBG("Parsing status file ", status_file)
+	INFO("Parsing status file ", status_file)
 	local result = {}
 	local f, err = io.open(status_file)
 	if f then
