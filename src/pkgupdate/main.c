@@ -67,6 +67,8 @@ const char *bb_approval_filename = "/tmp/update-state/bb-approvals-file";
 FILE *bb_approval_file = NULL;
 
 static bool approved(struct interpreter *interpreter, const char *approval_file, const char **approvals, size_t approval_count) {
+	INFO("BB: approved()0");
+	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	INFO("BB: approved()1");
 //	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	fputs("testing if it works+\n", bb_approval_file);
