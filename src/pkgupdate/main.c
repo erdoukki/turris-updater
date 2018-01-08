@@ -73,7 +73,7 @@ static bool approved(struct interpreter *interpreter, const char *approval_file,
 	fputs("testing if it works+\n", bb_file);
 	INFO("BB: approved()2");
 //	fputs(approval_file, bb_file);
-	INFO(approval_file);
+//	INFO(&approval_file);
 	fputc('\n', bb_file);
 	INFO("BB: approved()3");
 	fclose(bb_file);
