@@ -68,12 +68,12 @@ FILE *bb_approval_file = NULL;
 
 static bool approved(struct interpreter *interpreter, const char *approval_file, const char **approvals, size_t approval_count) {
 	INFO("BB: approved()");
-	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
+//	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	fputs("testing if it works+\n", bb_approval_file);
 	fputs(approval_file, bb_approval_file);
 	fputc('\n', bb_approval_file);
 	fputs("^^^aproval file should be above^^^\n", bb_approval_file);
-	fclose(bb_approval_file);
+//	fclose(bb_approval_file);
 
 	if (!approval_file)
 		// We don't need to ask for approval.
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 	// NOTE to myself: it needs existing directory,m otherwise it will segfault
 	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
 	fputs("testing if it works in main()\n", bb_approval_file);
-	fclose(bb_approval_file);
+//	fclose(bb_approval_file);
 	// --
 
 	// Parse the arguments
