@@ -115,7 +115,7 @@ APPROVAL_GRANTED_FILE=/usr/share/updater/approvals
 EXIT_CODE=1
 BACKGROUND=false
 RAND_SLEEP=false
-PKGUPDATE_ARGS=""
+PKGUPDATE_ARGS="--no-replan"
 # This variable is set throught env variables, we must not redefine it here
 # Just make it a non-env variable and set the default value if it is not defined
 export -n RUNNING_ON_BACKGROUND

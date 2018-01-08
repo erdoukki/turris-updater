@@ -55,6 +55,7 @@ if lists then
 	local exec_list = {} -- We want to run userlist only once even if it's defined multiple times
 	if type(lists) == "table" then
 		for _, l in ipairs(lists) do
+			INFO("BB: looking at list " .. l)
 			if exec_list[l] then
 				WARN("User list " .. l .. " specified multiple times")
 			else
