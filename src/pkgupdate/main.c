@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 
 	// BB: I need to check approvals, so let's collect some debug into a file
 	// NOTE to myself: it needs existing directory,m otherwise it will segfault
-	FILE *bb_approval_file = fopen(bb_approval_filename, "w");
+	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	fputs("testing if it works in main()\n", bb_approval_file);
 	fclose(bb_approval_file);
 	// --

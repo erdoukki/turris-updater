@@ -197,7 +197,7 @@ approvals_prepare() {
 	local AUTO_GRANT_TRESHOLD
 	local AUTO_GRANT_TIME
 
-	echo "BB: approvals_prepare() called" > /tmp/update-state/bb-approvals-file
+	echo "BB: approvals_prepare() called" >> /tmp/update-state/bb-approvals-file
 
 	APPROVALS="--ask-approval=$APPROVAL_ASK_FILE"
 	if [ -f "$APPROVAL_GRANTED_FILE" ]; then
@@ -223,7 +223,7 @@ approvals_request() {
 	local NOTIFY_APPROVAL
 	local LIST
 
-	echo "BB: approvals_request() called" > /tmp/update-state/bb-approvals-file
+	echo "BB: approvals_request() called" >> /tmp/update-state/bb-approvals-file
 
 	read HASH <"$APPROVAL_ASK_FILE"
 	if ! grep -q "^$HASH" "$APPROVAL_GRANTED_FILE" ; then
@@ -246,7 +246,7 @@ approvals_request() {
 # Do post-update actions for approvals
 approvals_finish() {
 
-	echo "BB: approvals_finish() called" > /tmp/update-state/bb-approvals-file
+	echo "BB: approvals_finish() called" >> /tmp/update-state/bb-approvals-file
 
 	if [ -f "$APPROVAL_ASK_FILE" ] ; then
 		approvals_request
@@ -286,6 +286,19 @@ notify_user() {
 # Function handling everything about pkgupdate execution
 run_updater() {
 	local NEED_APPROVAL
+
+	# BB: some preparation here
+	if [ ! -d /tmp/update-state ] ; then
+		mkdir /tmp/update-state
+	fi	
+
+	if [ ! -e /tmp/update-state/bb-approvals-file ] ; then
+		touch /tmp/update-state/bb-approvals-file
+	fi
+
+	echo "BB: run_updater() called, all calls to approvals should come from here" >> /tmp/update-state/bb-approvals-file
+
+	# --BB
 
 	config_get_bool NEED_APPROVAL approvals need 0
 	if [ "$NEED_APPROVAL" = "1" ] ; then
