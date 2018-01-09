@@ -197,6 +197,8 @@ approvals_prepare() {
 	local AUTO_GRANT_TRESHOLD
 	local AUTO_GRANT_TIME
 
+	echo "BB: approvals_prepare() called" > /tmp/update-state/bb-approvals-file
+
 	APPROVALS="--ask-approval=$APPROVAL_ASK_FILE"
 	if [ -f "$APPROVAL_GRANTED_FILE" ]; then
 		# Get a threshold time when we grant approval automatically. In case we don't, we set the time to
@@ -221,6 +223,8 @@ approvals_request() {
 	local NOTIFY_APPROVAL
 	local LIST
 
+	echo "BB: approvals_request() called" > /tmp/update-state/bb-approvals-file
+
 	read HASH <"$APPROVAL_ASK_FILE"
 	if ! grep -q "^$HASH" "$APPROVAL_GRANTED_FILE" ; then
 		echo "$HASH asked $(date -u +%s)" >"$APPROVAL_GRANTED_FILE"
@@ -241,6 +245,9 @@ approvals_request() {
 
 # Do post-update actions for approvals
 approvals_finish() {
+
+	echo "BB: approvals_finish() called" > /tmp/update-state/bb-approvals-file
+
 	if [ -f "$APPROVAL_ASK_FILE" ] ; then
 		approvals_request
 	else
