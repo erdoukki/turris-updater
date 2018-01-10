@@ -52,7 +52,7 @@ module "transaction"
 local install_steps = 6  -- total install steps for reporting progress
 local install_step = 0   -- current index
 local function calc_progress(index, length)
-	math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end
 
 -- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
