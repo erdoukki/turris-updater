@@ -65,7 +65,7 @@ local function script(errors_collected, name, suffix, ...)
 end
 
 -- Stages of the transaction. Each one is written into the journal, with its results.
-local function pkg_unpack(operations, status, progress)
+local function pkg_unpack(operations, status)
 	INFO("Unpacking download packages")
 	local dir_cleanups = {}
 	--[[
@@ -79,8 +79,14 @@ local function pkg_unpack(operations, status, progress)
 	-- Plan of the operations we have prepared, similar to operations, but with different things in them
 	local plan = {}
 	local cleanup_actions = {}
+	-- +BB progress stuff
+	local length = utils.tablelength(operations)
+	local index = 0
+	-- -BB
 	for _, op in ipairs(operations) do
 		-- +BB reporting
+		index = index + 1
+		local progress = index / length * 100
 		INFO("BB: Unpacking package " .. op.name .. " (" .. math.floor(progress + 0.5) .. "% done).")
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
