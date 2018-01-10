@@ -45,6 +45,7 @@ local sync = sync
 local log_event = log_event
 local sha256 = sha256
 local system_reboot = system_reboot
+local math = math
 
 module "transaction"
 
@@ -459,15 +460,16 @@ function queue_install(filename)
 end
 
 function queue_install_downloaded(data, name, version, modifier, progress)
-		INFO("BB: Queue install of " .. name .. " (" .. math.floor(progress + 0.5) .. "% done).")
-		table.insert(queue, {
-			op = "install",
-			data = data,
-			name = name,
-			version = version,
-			reboot = modifier.reboot,
-			replan = modifier.replan
-		})
+	local val = math.floor(progress + 0.5)
+	INFO("BB: Queue install of " .. name .. " (" .. val .. "% done).")
+	table.insert(queue, {
+		op = "install",
+		data = data,
+		name = name,
+		version = version,
+		reboot = modifier.reboot,
+		replan = modifier.replan
+	})
 --	end
 end
 
