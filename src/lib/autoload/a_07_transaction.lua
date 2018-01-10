@@ -93,7 +93,7 @@ local function pkg_unpack(operations, status)
 	for _, op in ipairs(operations) do
 		-- +BB reporting
 		index = index + 1
-		local progress = calc_progress(index, total)
+		local progress = calc_progress(index, length)
 		INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
