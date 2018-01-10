@@ -226,8 +226,14 @@ end
 
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
+	-- +BB progress stuff
+	local length = utils.tablelength(plan)
+	local index = 0
+	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
+		index = index + 1
+		local progress = math.floor(index / length * 100 + 0.5)
 		-- Set default message
 		local msg = "Run post-install for"
 		if op.op == "remove" then msg = "Remove" end
@@ -253,7 +259,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 			log_event("R", op.name)
 			script(errors_collected, op.name, "prerm", "remove")
 		end
-		INFO("BB: " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
+		INFO("BB: (" .. progress .. "%  done) - " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
 	end
 	-- Clean up the files from removed or upgraded packages
 	INFO("Removing packages and leftover files")
