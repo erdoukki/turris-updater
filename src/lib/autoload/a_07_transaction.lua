@@ -177,6 +177,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
 			-- +BB reporting
+			index = index + 1
 			local progress = math.floor(index / length * 100 + 0.5) 
 			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
@@ -192,6 +193,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
+		index = index + 1
 		local progress = math.floor(index / length * 100 + 0.5) 
 		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
@@ -263,6 +265,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
+		index = index + 1
 		local progress = math.floor(index / length * 100 + 0.5) 
 		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
