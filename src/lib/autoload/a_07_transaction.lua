@@ -170,10 +170,15 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 
 	local all_configs = {}
 	-- Build list of all configs and steal from not-installed
+	-- +BB progress stuff
+	local length = utils.tablelength(plan)
+	local index = 0
+	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
 			-- +BB reporting
-			INFO("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version)
+			local progress = math.floor(index / length * 100 + 0.5) 
+			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -252,9 +257,14 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	INFO("Removing packages and leftover files")
 	state_dump("remove")
 	backend.pkg_cleanup_files(removes, all_configs)
+
+	local length = utils.tablelength(plan)
+	local index = 0
+	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
+		local progress = math.floor(index / length * 100 + 0.5) 
+		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
