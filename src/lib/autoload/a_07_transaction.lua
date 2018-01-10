@@ -458,8 +458,8 @@ function queue_install(filename)
 	end
 end
 
-function queue_install_downloaded(data, name, version, modifier, progress)
-		INFO("BB: Queue install of " .. name .. " (" .. progress "% done).")
+function queue_install_downloaded(data, name, version, modifier, progval)
+		INFO("BB: Queue install of " .. name .. " (" .. progval "% done).")
 		table.insert(queue, {
 			op = "install",
 			data = data,
