@@ -34,7 +34,6 @@ local planner = require "planner"
 local requests = require "requests"
 local backend = require "backend"
 local transaction = require "transaction"
-local tablelength = tablelength
 
 module "updater"
 
@@ -90,7 +89,7 @@ function prepare(entrypoint)
 		end
 	end
 	-- BB get length of transaction for reporting 
-	local length = tablelength(tasks)
+	local length = utils.tablelength(tasks)
 	local index = 0
 	-- Now push all data into the transaction
 	for _, task in ipairs(tasks) do
