@@ -51,6 +51,9 @@ module "transaction"
 
 local install_steps = 6  -- total install steps for reporting progress
 local install_step = 0   -- current index
+local function calc_progress(index, length)
+	math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+end
 
 -- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
 
@@ -90,7 +93,7 @@ local function pkg_unpack(operations, status)
 	for _, op in ipairs(operations) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+		local progress = calc_progress(index, total)
 		INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
@@ -183,7 +186,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		if op.op == "install" then
 			-- +BB reporting
 			index = index + 1
-			local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+			local progress = calc_progress(index, length)
 			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
@@ -200,7 +203,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5) 
+		local progress = calc_progress(index, length)
 		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
@@ -240,7 +243,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+		local progress = calc_progress(index, length)
 		-- Set default message
 		local msg = "Run post-install for"
 		if op.op == "remove" then msg = "Remove" end
@@ -280,7 +283,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+		local progress = calc_progress(index, length)
 		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
