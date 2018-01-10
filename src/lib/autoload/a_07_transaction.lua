@@ -458,12 +458,8 @@ function queue_install(filename)
 	end
 end
 
-function queue_install_downloaded(data, name, version, modifier)
-	INFO("BB: queue_install_downloaded called: " .. name)
---	if name == "updater-ng" then
---		INFO("BB: Ignoring updater")
---	else
-		INFO("BB: Queue install of " .. name)
+function queue_install_downloaded(data, name, version, modifier, progress)
+		INFO("BB: Queue install of " .. name .. " (" .. progress "% done).")
 		table.insert(queue, {
 			op = "install",
 			data = data,
