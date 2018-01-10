@@ -182,7 +182,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	end
 	-- Go through the list once more and perform the prepared operations
 	-- +BB progress stuff
-	local length = utils.tablelength(operations)
+	local length = utils.tablelength(plan)
 	local index = 0
 	-- -BB
 	for _, op in ipairs(plan) do
