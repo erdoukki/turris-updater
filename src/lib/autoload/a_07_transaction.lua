@@ -64,7 +64,7 @@ local function script(errors_collected, name, suffix, ...)
 end
 
 -- Stages of the transaction. Each one is written into the journal, with its results.
-local function pkg_unpack(operations, status)
+local function pkg_unpack(operations, status, progress)
 	INFO("Unpacking download packages")
 	local dir_cleanups = {}
 	--[[
@@ -80,7 +80,7 @@ local function pkg_unpack(operations, status)
 	local cleanup_actions = {}
 	for _, op in ipairs(operations) do
 		-- +BB reporting
-		INFO("BB: Unpacking package " .. op.name)
+		INFO("BB: Unpacking package " .. op.name .. " (" .. math.floor(progress + 0.5) .. "% done).")
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
@@ -458,8 +458,8 @@ function queue_install(filename)
 	end
 end
 
-function queue_install_downloaded(data, name, version, modifier, progval)
-		INFO("BB: Queue install of " .. name .. " (" .. progval .. "% done).")
+function queue_install_downloaded(data, name, version, modifier, progress)
+		INFO("BB: Queue install of " .. name .. " (" .. math.floor(progress + 0.5) .. "% done).")
 		table.insert(queue, {
 			op = "install",
 			data = data,
