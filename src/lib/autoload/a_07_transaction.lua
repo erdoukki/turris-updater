@@ -86,8 +86,8 @@ local function pkg_unpack(operations, status)
 	for _, op in ipairs(operations) do
 		-- +BB reporting
 		index = index + 1
-		local progress = index / length * 100
-		INFO("BB: Unpacking package " .. op.name .. " (" .. math.floor(progress + 0.5) .. "% done).")
+		local progress = math.floor(index / length * 100 + 0.5)
+		INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
@@ -181,9 +181,14 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		end
 	end
 	-- Go through the list once more and perform the prepared operations
+	-- +BB progress stuff
+	local length = utils.tablelength(operations)
+	local index = 0
+	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		INFO("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
+		local progress = math.floor(index / length * 100 + 0.5) 
+		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -467,7 +472,7 @@ end
 
 function queue_install_downloaded(data, name, version, modifier, progress)
 	local val = math.floor(progress + 0.5)
-	INFO("BB: Queue install of " .. name .. " (" .. val .. "% done).")
+	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
 	table.insert(queue, {
 		op = "install",
 		data = data,
