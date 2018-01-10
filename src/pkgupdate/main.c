@@ -141,7 +141,11 @@ int main(int argc, char *argv[]) {
 	FILE *bb_approval_file = fopen(bb_approval_filename, "a");
 	fputs("testing if it works in main()\n", bb_approval_file);
 	fclose(bb_approval_file);
-	// --
+
+	// init my log file
+	init_log_dump();
+
+	// --BB
 
 	// Parse the arguments
 	struct cmd_op *ops = cmd_args_parse(argc, argv, cmd_op_allows);

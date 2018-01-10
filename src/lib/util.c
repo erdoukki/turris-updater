@@ -68,6 +68,26 @@ void set_state_log(bool state_log) {
 */
 }
 
+void init_log_dump() {
+	FILE *fl = fopen("/tmp/update-state/bb-log", "w");
+	if (fl) {
+		fprintf(fl, "");
+		fclose(fl);
+	} else {
+		WARN("Could not bb log: %s", strerror(errno));
+	}
+}
+
+void log_dump(const char *msg) {
+	FILE *fl = fopen("/tmp/update-state/bb-log", "a");
+	if (fl) {
+		fprintf(fl, "%s\n", msg);
+		fclose(fl);
+	} else {
+		WARN("Could not dump state: %s", strerror(errno));
+	}
+}
+
 void state_dump(const char *msg) {
 	if (state_log_enabled) {
 		FILE *f = fopen("/tmp/update-state/state", "w");
@@ -111,6 +131,7 @@ void log_internal(enum log_level level, const char *file, size_t line, const cha
 	char *msg = alloca(msg_size);
 	va_start(args, format);
 	vsprintf(msg, format, args);
+	log_dump(msg);
 	va_end(args);
 // BB+	
 //	state_dump(msg);

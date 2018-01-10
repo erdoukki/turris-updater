@@ -294,6 +294,8 @@ run_updater() {
 
 	if [ ! -e /tmp/update-state/bb-approvals-file ] ; then
 		touch /tmp/update-state/bb-approvals-file
+	else
+		echo "" > /tmp/update-state/bb-approvals-file
 	fi
 
 	echo "BB: run_updater() called, all calls to approvals should come from here" >> /tmp/update-state/bb-approvals-file
