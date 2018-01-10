@@ -49,6 +49,9 @@ local math = math
 
 module "transaction"
 
+local install_steps = 6  -- total install steps for reporting progress
+local install_step = 0   -- current index
+
 -- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
 
 -- Wrap the call to the maintainer script, and store any possible errors for later use
@@ -82,11 +85,12 @@ local function pkg_unpack(operations, status)
 	-- +BB progress stuff
 	local length = utils.tablelength(operations)
 	local index = 0
+	install_step = install_step + 1 -- step #2
 	-- -BB
 	for _, op in ipairs(operations) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor(index / length * 100 + 0.5)
+		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 		INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
@@ -173,12 +177,13 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
+	install_step = install_step + 1 -- step #3
 	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
 			-- +BB reporting
 			index = index + 1
-			local progress = math.floor(index / length * 100 + 0.5) 
+			local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
@@ -190,11 +195,12 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
+	install_step = install_step + 1 -- step #4
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor(index / length * 100 + 0.5) 
+		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5) 
 		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
@@ -229,11 +235,12 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
+	install_step = install_step + 1 -- step #5
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor(index / length * 100 + 0.5)
+		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 		-- Set default message
 		local msg = "Run post-install for"
 		if op.op == "remove" then msg = "Remove" end
@@ -268,11 +275,12 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 
 	local length = utils.tablelength(plan)
 	local index = 0
+	install_step = install_step + 1 -- step #6
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
 		index = index + 1
-		local progress = math.floor(index / length * 100 + 0.5) 
+		local progress = math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
@@ -490,7 +498,7 @@ function queue_install(filename)
 end
 
 function queue_install_downloaded(data, name, version, modifier, progress)
-	local val = math.floor(progress + 0.5)
+	local val = math.floor(progress * (1 / install_steps) + 0.5) -- do not add offset, this is 1st step
 	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
 	table.insert(queue, {
 		op = "install",
