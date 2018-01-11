@@ -276,7 +276,7 @@ int main(int argc, char *argv[]) {
 			GOTO_CLEANUP;
 		}
 	}
-	err = interpreter_call(interpreter, "transaction.empty", &result_count, "");
+	const char *err = interpreter_call(interpreter, "transaction.empty", &result_count, "");
 	ASSERT_MSG(!err, "%s", err);
 	ASSERT_MSG(result_count == 1, "Wrong number of results of transaction.empty");
 	bool trans_empty;
