@@ -268,11 +268,13 @@ int main(int argc, char *argv[]) {
 			goto CLEANUP;
 	}
 	// Decide what packages need to be downloaded and handled
-	const char *err = interpreter_call(interpreter, "updater.prepare", NULL, "s", top_level_config);
-	if (err) {
-		exit_type = COT_CRASH;
-		ERROR("%s", err);
-		GOTO_CLEANUP;
+	if (false){ // BB: Trying to supress package download
+		const char *err = interpreter_call(interpreter, "updater.prepare", NULL, "s", top_level_config);
+		if (err) {
+			exit_type = COT_CRASH;
+			ERROR("%s", err);
+			GOTO_CLEANUP;
+		}
 	}
 	err = interpreter_call(interpreter, "transaction.empty", &result_count, "");
 	ASSERT_MSG(!err, "%s", err);

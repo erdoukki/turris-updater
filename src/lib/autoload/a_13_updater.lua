@@ -91,6 +91,7 @@ function prepare(entrypoint)
 	-- BB get length of transaction for reporting 
 	local length = utils.tablelength(tasks)
 	local index = 0
+		-- step #1
 	-- Now push all data into the transaction
 	for _, task in ipairs(tasks) do
 		-- BB update index
