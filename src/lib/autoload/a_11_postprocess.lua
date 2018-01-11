@@ -90,6 +90,7 @@ function get_repos()
 			end
 			local function parse(content)
 				DBG("Parsing index " .. name)
+				INFO("Parsing index " .. name)
 				local ok, list = pcall(backend.repo_parse, content)
 				if ok then
 					for _, pkg in pairs(list) do
@@ -107,6 +108,7 @@ function get_repos()
 			end
 			local function decompressed(ecode, _, stdout, stderr)
 				DBG("Decompression of " .. name .. " done")
+				INFO("Decompression of " .. name .. " done")
 				if ecode == 0 then
 					parse(stdout)
 				else
@@ -115,6 +117,7 @@ function get_repos()
 			end
 			local function downloaded(ok, answer)
 				DBG("Received repository index " .. name)
+				INFO("Received repository index " .. name)
 				if not ok then
 					-- Couldn't download
 					-- TODO: Once we have validation, this could also mean the integrity is broken, not download
@@ -122,6 +125,7 @@ function get_repos()
 				elseif answer:sub(1, 2) == string.char(0x1F, 0x8B) then
 					-- It starts with gzip magic - we want to decompress it
 					DBG("Index " .. name .. " is compressed, decompressing")
+					INFO("Index " .. name .. " is compressed, decompressing")
 					table.insert(extract_events, run_util(decompressed, nil, answer, -1, -1, 'gzip', '-dc'))
 				else
 					parse(answer)
