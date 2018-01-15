@@ -56,7 +56,7 @@ function print_r (t, fd)
        fd:write(str.."\n")
 	end
 	for key, value in pairs (t) do
-		print(tostring(key) .. ": " tostring(value) "\n")
+		print(tostring(key) .. ": " .. tostring(value) .. "\n")
 end
 
 function savetxt (t)
