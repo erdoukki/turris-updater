@@ -39,7 +39,7 @@ local io = require "io"
 local assert = assert
 local pairs = pairs
 local tostring = tostring
-local type =type
+local type = type
 
 module "updater"
 
@@ -67,11 +67,11 @@ function print_r (t, fd)
 			print(tostring(k) .. ": " .. tostring(v) .. "")
 		end
 	end
-	for key, value in pairs(t) do
+	for key_, value_ in pairs(t) do
 		-- all values are tables
-		print(tostring(key) .. "--------------------------------")
-		for k, v in pairs(value) do
-			printrow(k, v)
+		print(tostring(key_) .. "--------------------------------")
+		for k_, v_ in pairs(value_) do
+			printrow(k_, v_)
 		end
 	end
 end
