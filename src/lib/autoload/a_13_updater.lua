@@ -39,6 +39,7 @@ local io = require "io"
 local assert = assert
 local pairs = pairs
 local tostring = tostring
+local type =type
 
 module "updater"
 
