@@ -34,7 +34,9 @@ local planner = require "planner"
 local requests = require "requests"
 local backend = require "backend"
 local transaction = require "transaction"
+
 local io = require "io"
+local assert = assert
 
 module "updater"
 
