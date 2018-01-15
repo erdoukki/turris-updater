@@ -51,8 +51,8 @@ function print_r (t, fd)
     local function print(str)
        str = str or ""
        fd:write(str.."\n")
-    end
-    ...
+	end
+	print(t)
 end
 
 function savetxt (t)
