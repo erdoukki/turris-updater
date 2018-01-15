@@ -37,6 +37,7 @@ local transaction = require "transaction"
 
 local io = require "io"
 local assert = assert
+local pairs = pairs
 
 module "updater"
 
