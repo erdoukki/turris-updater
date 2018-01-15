@@ -57,8 +57,12 @@ function print_r (t, fd)
        str = str or ""
        fd:write(str.."\n")
 	end
-	for key, value in pairs (t) do
-		print(tostring(key) .. ": " .. tostring(value) .. "\n")
+	for key, value in pairs(t) do
+		-- all values are tables
+		print(tostring(key) .. "--------------------------------\n")
+		for k, v in pairs(value) do
+			print(tostring(k) .. ": " .. tostring(v) .. "\n")	
+		end
 	end
 end
 
