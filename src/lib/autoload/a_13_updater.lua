@@ -63,9 +63,11 @@ function print_r (t, fd)
 		print(tostring(key) .. "--------------------------------\n")
 		for k, v in pairs(value) do
 			if type(v) == "table" then
+				print(tostring(k) .. ": ----------------------")
 				for kk, vv in pairs (v) do
 					print("  " .. tostring(kk) .. ": " .. tostring(vv) .. "")
 				end
+				print("----------------------")
 			else
 				print(tostring(k) .. ": " .. tostring(v) .. "")	
 			end
