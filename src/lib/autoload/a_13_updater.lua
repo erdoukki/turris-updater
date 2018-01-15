@@ -58,7 +58,7 @@ function print_r (t, fd)
        fd:write(str.."\n")
 	end
 	local function printrow(key, value)
-		if type(value) = "table" then
+		if type(value) == "table" then
 			for k, v in pairs(value) do
 				printrow(k, v)
 			end
