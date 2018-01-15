@@ -60,14 +60,15 @@ function print_r (t, fd)
 	end
 	for key, value in pairs(t) do
 		-- all values are tables
-		print(tostring(key) .. "--------------------------------\n")
+		print("\n" .. tostring(key) .. "--------------------------------\n")
 		for k, v in pairs(value) do
-			if type(v) == "table" then
-				print(tostring(k) .. ": ----------------------")
+		--	if type(v) == "table" then
+			if k == "package" then
+				print(tostring(k) .. ": [")
 				for kk, vv in pairs (v) do
 					print("  " .. tostring(kk) .. ": " .. tostring(vv) .. "")
 				end
-				print("----------------------")
+				print("]")
 			else
 				print(tostring(k) .. ": " .. tostring(v) .. "")	
 			end
