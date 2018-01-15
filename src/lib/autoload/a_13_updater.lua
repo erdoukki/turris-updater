@@ -58,20 +58,17 @@ function print_r (t, fd)
        str = str or ""
        fd:write(str.."\n")
 	end
-	local function printrow(key, value)
-		if type(value) == "table" then
-			for k, v in pairs(value) do
-				printrow(k, v)
-			end
-		else
-			print(tostring(k) .. ": " .. tostring(v) .. "")
-		end
-	end
-	for key_, value_ in pairs(t) do
+	for key, value in pairs(t) do
 		-- all values are tables
-		print(tostring(key_) .. "--------------------------------")
-		for k_, v_ in pairs(value_) do
-			printrow(k_, v_)
+		print(tostring(key) .. "--------------------------------\n")
+		for k, v in pairs(value) do
+			if type(v) == "table" then
+				for kk, vv in pairs (v) do
+					print("  " .. tostring(kk) .. ": " .. tostring(vv) .. "")
+				end
+			else
+				print(tostring(k) .. ": " .. tostring(v) .. "")	
+			end
 		end
 	end
 end
