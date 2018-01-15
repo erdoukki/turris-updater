@@ -59,7 +59,7 @@ function print_r (t, fd)
 end
 
 function savetxt (t)
-	local file = assert(io.open("~/test.txt", "w"))
+	local file = assert(io.open("/root/test.txt", "w"))
 	print_r(t, file)
 	file:close()
  end
