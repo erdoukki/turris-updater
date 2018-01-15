@@ -44,6 +44,26 @@ function disable_replan()
 	allow_replan = false
 end
 
+-- +BB supprot gfor saving table to a file (debug stuff)
+
+function print_r (t, fd)
+    fd = fd or io.stdout
+    local function print(str)
+       str = str or ""
+       fd:write(str.."\n")
+    end
+    ...
+end
+
+function savetxt (t)
+	local file = assert(io.open("~/test.txt", "w"))
+	print_r(t, file)
+	file:close()
+ end
+
+-- -BB
+
+
 function required_pkgs(entrypoint)
 	-- Get the top-level script
 	local tlc = sandbox.new('Full')
@@ -60,7 +80,10 @@ function required_pkgs(entrypoint)
 	state_dump("examine")
 	-- Go through all the requirements and decide what we need
 	postprocess.run()
-	return planner.required_pkgs(postprocess.available_packages, requests.content_requests)
+--	return planner.required_pkgs(postprocess.available_packages, requests.content_requests)
+	local output = planner.required_pkgs(postprocess.available_packages, requests.content_requests)
+	savetxt(output)
+	return output
 end
 
 function prepare(entrypoint)
