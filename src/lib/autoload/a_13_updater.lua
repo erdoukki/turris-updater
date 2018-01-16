@@ -116,7 +116,7 @@ function prepare(entrypoint)
 	too many). We then start taking them one by one, but that doesn't stop it
 	from being downloaded in any order.
 	]]
-	local download_switch = false
+	local download_switch = true
 	if download_switch == true then
 		for _, task in ipairs(tasks) do
 			if task.action == "require" and not task.package.data then -- if we already have data, skip downloading
