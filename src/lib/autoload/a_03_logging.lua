@@ -106,7 +106,7 @@ function show_progress(message, value)
 	set_cursor(row,1)		-- move to last line
 	INFO(message)
 --	io.write("\n")
-	io.write(csi .. "1T")	-- scroll down
+--	io.write(csi .. "1T")	-- scroll down
 --	set_cursor(row - 1,1)
 --	io.write(csi .. "2K")
 	set_cursor(row,1)
