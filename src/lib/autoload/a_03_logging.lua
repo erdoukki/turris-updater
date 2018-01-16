@@ -63,3 +63,68 @@ function c_pcall_error_handler(err)
 	end
 	return {msg=msg, trace=stacktraceplus.stacktrace()}
 end
+
+
+-- BB extended logging, support for console UI
+
+-- support functions
+function split(s, delimiter)
+	local result = {};
+	for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+		table.insert(result, match);
+	end
+	return result;
+end
+
+local csi = "\27["
+
+function set_cursor(row, col)
+	io.write(csi .. row .. ";" .. col .. "H")
+end
+
+function reset_colors()
+	io.write(csi .. "m")
+end
+
+function save_cursor()
+	io.write(csi .. "s")
+end
+
+function restore_cursor()
+	io.write(csi .. "u")
+end
+
+function show_progress(value)
+	save_cursor()
+	local size = get_screen_size()
+	local row = size[1]
+	local col = size[2]
+	set_cursor(row,1)
+	local length = ((math.floor(value * col)) - 4) / 2
+	local bar = "["
+	for i = 1, length do bar = bar .. "=" end
+	bar = bar .. math.floor(100 * value) .. "%"
+	for i = 1, length do bar = bar .. "=" end
+	io.write(bar .. "]")
+	restore_cursor()
+end
+
+function get_screen_size()
+-- read size
+	local handle = io.popen('stty size')
+	local result = handle:read("*a")
+	handle:close()
+-- convert size to array
+	result = result:gsub("\n", "")
+	return split(result, " ")
+end
+
+--[[
+	save_cursor()
+	set_cursor(1,1)
+	print('This is red->\27[31mred\n')
+	reset_colors()
+	restore_cursor()
+	
+	for i = 0, 1, 0.0001 do show_progress(i) end
+]]
