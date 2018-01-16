@@ -95,8 +95,8 @@ local function pkg_unpack(operations, status)
 		-- +BB reporting
 		index = index + 1
 		local progress = calc_progress(index, length)
-		INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
-		show_progress(progress / 100)
+	--	INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
+		show_progress("BB: (" .. progress .."% done) - Unpacking package " .. op.name, progress / 100)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
@@ -189,8 +189,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			-- +BB reporting
 			index = index + 1
 			local progress = calc_progress(index, length)
-			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
-			show_progress(progress / 100)
+--			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
+			show_progress("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -207,8 +207,8 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		-- +BB reporting
 		index = index + 1
 		local progress = calc_progress(index, length)
-		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress(progress / 100)
+--		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
+		show_progress("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -273,8 +273,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 			log_event("R", op.name)
 			script(errors_collected, op.name, "prerm", "remove")
 		end
-		INFO("BB: (" .. progress .. "%  done) - " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress(progress / 100)
+--		INFO("BB: (" .. progress .. "%  done) - " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
+		show_progress("BB: (" .. progress .. "%  done) - " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
 	end
 	-- Clean up the files from removed or upgraded packages
 	INFO("Removing packages and leftover files")
@@ -290,7 +290,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		index = index + 1
 		local progress = calc_progress(index, length)
 		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress(progress / 100)
+		show_progress("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")
@@ -508,8 +508,8 @@ end
 
 function queue_install_downloaded(data, name, version, modifier, progress)
 	local val = math.floor(progress * (1 / install_steps) + 0.5) -- do not add offset, this is 1st step
-	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
-	show_progress(val / 100)
+--	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
+	show_progress("BB: (" .. val .. "% done) - Queue install of " .. name, val / 100)
 	table.insert(queue, {
 		op = "install",
 		data = data,
