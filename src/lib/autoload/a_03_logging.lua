@@ -102,8 +102,9 @@ function show_progress(message, value)
 	-- clear previous line
 	save_cursor()
 	set_cursor(row,1)		-- move to last line
---	io.write(csi .. "2K") 	-- clear line, this should clear last progress
+	io.write(csi .. "2K") 	-- clear line, this should clear last progress
 	io.write(csi .. "0J")
+	set_cursor(row,1)		-- move to last line
 	INFO(message)
 	io.write("\n")
 	io.write(csi .. "1T")	-- scroll down
