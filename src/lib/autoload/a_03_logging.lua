@@ -95,14 +95,15 @@ function restore_cursor()
 end
 
 function show_progress(message, value)
-	-- setup veriables
+	-- setup variables
 	local size = get_screen_size()
 	local row = size[1]
 	local col = size[2]
 	-- clear previous line
 	save_cursor()
 	set_cursor(row,1)		-- move to last line
-	io.write(csi .. "2K") 	-- clear line, this should clear last progress
+	io.write(csi .. "1T")	-- scroll down
+	io.write(csi .. "1S") 	-- scroll up (should clear, IMO)
 	set_cursor(row,1)		-- move to last line
 	INFO(message)
 --	io.write("\n")
