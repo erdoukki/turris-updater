@@ -101,9 +101,10 @@ function show_progress(message, value)
 	local col = size[2]
 	-- clear previous line
 	save_cursor()
-	set_cursor(row,1)
-	io.write(csi .. "2K")
+	set_cursor(row,1)		-- move to last line
+	io.write(csi .. "2K") 	-- clear line, this should clear last progress
 	INFO(message)
+	io.write("\n")
 --	set_cursor(row - 1,1)
 --	io.write(csi .. "2K")
 	set_cursor(row,1)
