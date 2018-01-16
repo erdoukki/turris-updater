@@ -101,7 +101,7 @@ function show_progress(value)
 	local row = size[1]
 	local col = size[2]
 	set_cursor(row - 1,1)
-	io.write(csi .. "2K")
+	io.write(csi .. "1S")
 	set_cursor(row,1)
 	local length = ((math.floor(value * col)) - 5) / 2
 	local bar = "["
