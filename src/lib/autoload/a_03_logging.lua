@@ -102,7 +102,11 @@ function show_progress(message, value)
 	-- clear previous line
 	save_cursor()
 	set_cursor(row,1)		-- move to last line
-	io.write("                                                                                                                    ") 	-- clear line, this should clear last progress
+	local empty = ""
+	for i = 1, col do empty = empty .. " " end
+	io.write(empty) 	-- clear line, this should clear last progress
+	set_cursor(row,1)		-- move to last line
+	
 	io.write(csi .. "1S")
 --	set_cursor(row,1)		-- move to last line
 	INFO(message)
