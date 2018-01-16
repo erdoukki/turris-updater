@@ -289,7 +289,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		-- +BB reporting
 		index = index + 1
 		local progress = calc_progress(index, length)
-		INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
+		--INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		show_progress("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
