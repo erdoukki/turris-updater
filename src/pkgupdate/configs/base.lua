@@ -59,7 +59,7 @@ if lists then
 			if exec_list[l] then
 				WARN("User list " .. l .. " specified multiple times")
 			else
-				INFO("BB: list " .. "userlist-" .. l .. "<>" .. base_url .. l .. ".lua <>" .. script_options)
+				INFO("BB: list " .. "userlist-" .. l .. " <> " .. base_url .. l .. ".lua")
 				Script("userlist-" .. l, base_url .. l .. ".lua", script_options)
 				exec_list[l] = true
 			end
