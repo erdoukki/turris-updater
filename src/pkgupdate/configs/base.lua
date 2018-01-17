@@ -67,7 +67,7 @@ if lists then
 				WARN("User list " .. l .. " specified multiple times")
 			else
 				-- BB: poor man's caching 
-				local handle = io.popen("wget " .. base_url .. l .. ".lua -O /tmp/lists/" .. l .. ".lua")
+				local handle = io.popen("wget " .. base_url .. l .. ".lua -q -O /tmp/lists/" .. l .. ".lua")
 				local result = handle:read("*a")
 				INFO("BB: returned - " .. result)
 				handle:close()				
