@@ -93,6 +93,14 @@ function restore_cursor()
 	io.write(csi .. "u")
 end
 
+function scroll(direction, count)
+    if direction == "up" then
+        io.write(csi .. count .. "S")
+    else
+        io.write(csi .. count .. "T")
+    end
+end
+
 function print_progress(value, col)
 	local length = ((math.floor(value * col)) - 5) / 2
 	local bar = "["
