@@ -47,11 +47,15 @@ local script_options = {
 Script("base",  base_url .. "base.lua", script_options)
 
 -- BB: prepare directory for poor man's download
-os.execute([[
-if [ ! -e /tmp/lists ] ; then 
-	mkdir /tmp/lists
-fi
-]])
+
+local handle = io.popen([[
+	if [ ! -e /tmp/lists ] ; then 
+		mkdir /tmp/lists
+	fi
+	]])
+local result = handle:read("*a")
+INFO("BB: MKDIR returned - " .. result)
+
 
 -- Additional enabled distribution lists
 if lists then
@@ -69,7 +73,7 @@ if lists then
 				-- BB: poor man's caching 
 				local handle = io.popen("wget " .. base_url .. l .. ".lua -q -O /tmp/lists/" .. l .. ".lua")
 				local result = handle:read("*a")
-				INFO("BB: returned - " .. result)
+				INFO("BB: WGET returned - " .. result)
 				handle:close()				
 				--		This is here just for testing and would be done differently, once I know more about how it works
 				Script("userlist-" .. l, base_url .. l .. ".lua", script_options)
