@@ -111,7 +111,6 @@ function show_progress(message, value)
     set_cursor(row - 1,1)
     INFO(message)
     io.write(csi .. "1S")
-    sleep(0.5)
 	set_cursor(row,1)		-- move to last line
     print_progress(value, col)
     set_cursor(row - 1,1)
