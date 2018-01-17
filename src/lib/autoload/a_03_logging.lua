@@ -67,7 +67,6 @@ end
 
 -- BB extended logging, support for console UI
 
--- support functions
 function split(s, delimiter)
 	local result = {};
 	for match in (s..delimiter):gmatch("(.-)"..delimiter) do
@@ -94,30 +93,28 @@ function restore_cursor()
 	io.write(csi .. "u")
 end
 
-function show_progress(message, value)
-	-- setup variables
-	local size = get_screen_size()
-	local row = size[1]
-	local col = size[2]
-	-- clear previous line
-	save_cursor()
-	set_cursor(row,1)		-- move to last line
-	io.write(csi .. "1T")	-- scroll down
-	io.write(csi .. "1S") 	-- scroll up (should clear, IMO)
-	set_cursor(row,1)		-- move to last line
-	INFO(message)
---	io.write("\n")
---	io.write(csi .. "1T")	-- scroll down
---	set_cursor(row - 1,1)
---	io.write(csi .. "2K")
-	set_cursor(row,1)
+function print_progress(value, col)
 	local length = ((math.floor(value * col)) - 5) / 2
 	local bar = "["
 	for i = 1, length do bar = bar .. "=" end
 	bar = bar .. math.floor(100 * value) .. "%"
 	for i = 1, length do bar = bar .. "=" end
-	io.write(bar .. "]")
-	restore_cursor()
+    io.write(bar .. "]")
+end
+
+function show_progress(message, value)
+	-- setup variables
+	local size = get_screen_size()
+	local row = size[1]
+	local col = size[2]
+
+    set_cursor(row - 1,1)
+    INFO(message)
+    io.write(csi .. "1S")
+    sleep(0.5)
+	set_cursor(row,1)		-- move to last line
+    print_progress(value, col)
+    set_cursor(row - 1,1)
 end
 
 function get_screen_size()
@@ -129,13 +126,3 @@ function get_screen_size()
 	result = result:gsub("\n", "")
 	return split(result, " ")
 end
-
---[[
-	save_cursor()
-	set_cursor(1,1)
-	print('This is red->\27[31mred\n')
-	reset_colors()
-	restore_cursor()
-	
-	for i = 0, 1, 0.0001 do show_progress(i) end
-]]
