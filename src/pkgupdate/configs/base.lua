@@ -46,6 +46,13 @@ local script_options = {
 -- The distribution base script. It contains the repository and bunch of basic packages
 Script("base",  base_url .. "base.lua", script_options)
 
+-- BB: prepare directory for poor man's download
+os.execute([[
+if [ ! -e /tmp/lists ] ; then 
+	mkdir /tmp/lists
+fi
+]])
+
 -- Additional enabled distribution lists
 if lists then
 	if type(lists) == "string" then -- if there is single list then uci returns just a string
@@ -60,8 +67,9 @@ if lists then
 				WARN("User list " .. l .. " specified multiple times")
 			else
 				-- BB: poor man's caching 
-				local handle = io.popen("wget " .. base_url .. l .. ".lua -O /tmp/" .. l .. ".lua")
+				local handle = io.popen("wget " .. base_url .. l .. ".lua -O /tmp/lists/" .. l .. ".lua")
 				local result = handle:read("*a")
+				INFO("BB: returned - " .. result)
 				handle:close()				
 				--		This is here just for testing and would be done differently, once I know more about how it works
 				Script("userlist-" .. l, base_url .. l .. ".lua", script_options)
