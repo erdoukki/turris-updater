@@ -50,7 +50,7 @@ function disable_replan()
 	allow_replan = false
 end
 
--- +BB supprot gfor saving table to a file (debug stuff)
+-- +BB support for saving table to a file (debug stuff)
 
 function print_r (t, fd)
     fd = fd or io.stdout

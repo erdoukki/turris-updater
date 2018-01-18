@@ -116,7 +116,17 @@ function show_progress(message, value)
 	local row = size[1]
 	local col = size[2]
 
-	if false then				-- change for turning progress info on/off
+	-- get settings TODO: move outside, so it's not checked on every call
+	if uci then
+		local cursor = uci.cursor()
+		local quiet = cursor:get("updater", "quiet")
+	else
+		ERROR("UCI library is not available. Not processing user lists.")
+	end
+	-- 
+
+
+	if quiet ~= true then				-- change for turning progress info on/off
 		INFO(message)
 		set_cursor(row,1)
 		io.write(csi .. "2K")	-- clear line
