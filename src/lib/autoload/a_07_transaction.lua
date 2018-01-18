@@ -62,6 +62,7 @@ end
 local function script(errors_collected, name, suffix, ...)
 	local ok, stderr = backend.script_run(name, suffix, ...)
 	if stderr and stderr:len() > 0 then
+		INFO("---------->8 check here 8<-----------")
 		io.stderr:write("Output from " .. name .. "." .. suffix .. ":\n")
 		io.stderr:write(stderr)
 	end
