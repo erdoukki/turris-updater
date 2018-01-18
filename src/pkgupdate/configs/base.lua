@@ -73,7 +73,6 @@ if lists then
 				-- BB: poor man's caching 
 				local handle = io.popen("wget " .. base_url .. l .. ".lua -q -O /tmp/lists/" .. l .. ".lua")
 				local result = handle:read("*a")
-				INFO("BB: WGET returned - " .. result)
 				handle:close()				
 				--		This is here just for testing and would be done differently, once I know more about how it works
 				Script("userlist-" .. l, base_url .. l .. ".lua", script_options)

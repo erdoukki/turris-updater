@@ -302,7 +302,7 @@ run_updater() {
 
 	# --BB
 
-	config_get_bool NEED_APPROVAL approvals need 0
+	config_get_bool NEED_APPROVAL approvals need 1
 	if [ "$NEED_APPROVAL" = "1" ] ; then
 		approvals_prepare
 	else
