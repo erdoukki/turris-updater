@@ -116,13 +116,15 @@ function show_progress(message, value)
 	local row = size[1]
 	local col = size[2]
 
-    INFO(message)
-    set_cursor(row,1)		-- move to last line
-    io.write(csi .. "2K")
-    scroll("up", 1)
-	set_cursor(row,1)		-- move to last line
-    print_progress(value, col)
-    set_cursor(row - 1,1)
+	if false then				-- change for turning progress info on/off
+		INFO(message)
+		set_cursor(row,1)
+		io.write(csi .. "2K")	-- clear line
+		scroll("up", 1)
+		set_cursor(row,1)
+		print_progress(value, col)
+		set_cursor(row - 1,1)
+	end
 end
 
 function get_screen_size()
