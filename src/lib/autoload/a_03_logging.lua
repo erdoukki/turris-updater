@@ -125,7 +125,7 @@ function show_progress(message, value)
 	end
 	-- 
 
-	if quiet ~= true then				-- change for turning progress info on/off
+	if quiet ~= "true" then				-- change for turning progress info on/off
 		INFO(message)
 		set_cursor(row,1)
 		io.write(csi .. "2K")	-- clear line
