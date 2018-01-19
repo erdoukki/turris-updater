@@ -148,7 +148,7 @@ function get_screen_size()
 end
 
 install_steps = 7  -- total install steps for reporting progress
-install_step = 0   -- current index
+install_step = -1   -- current index (all steps increase by 1, to make code simpler, so we start with -1, so first step can be 0)
 function calc_progress(index, length)
 	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end

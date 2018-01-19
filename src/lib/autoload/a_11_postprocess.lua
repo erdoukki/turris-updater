@@ -83,7 +83,7 @@ function get_repos()
 		length = length + utils.tablelength(repo)
 	end
 	local index = 0
-	install_step = install_step + 1 -- step #3
+	install_step = install_step + 1 -- step #1
 	-- -BB
 
 	for _, repo in pairs(requests.known_repositories_all) do
