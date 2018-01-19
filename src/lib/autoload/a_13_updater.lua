@@ -42,8 +42,8 @@ local tostring = tostring
 local type = type
 
 local show_progress = show_progress
-local install_steps = install_steps
 local calc_progress = calc_progress
+local next_step = next_step
 
 module "updater"
 
@@ -141,8 +141,8 @@ function prepare(entrypoint)
 		-- BB get length of transaction for reporting 
 		local length = utils.tablelength(tasks)
 		local index = 0
-		install_step = install_step + 1
-			-- step #2
+		next_step()
+		-- step #2
 		-- Now push all data into the transaction
 		for _, task in ipairs(tasks) do
 			-- BB update index

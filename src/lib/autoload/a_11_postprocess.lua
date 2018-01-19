@@ -42,9 +42,8 @@ local requests = require "requests"
 local uri = require "uri"
 
 local show_progress = show_progress
-local install_steps = install_steps
 local calc_progress = calc_progress
-
+local next_step = next_step
 
 module "postprocess"
 
@@ -82,7 +81,7 @@ function get_repos()
 		length = length + utils.tablelength(repo)
 	end
 	local index = 0
-	install_step = install_step + 1 -- step #1
+	next_step()
 	-- -BB
 
 	for _, repo in pairs(requests.known_repositories_all) do

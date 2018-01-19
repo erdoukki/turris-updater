@@ -153,3 +153,6 @@ function calc_progress(index, length)
 	INFO("BB: calc_progress: " .. install_step .. "/" .. install_steps .. " - " .. index .. "/" .. length)
 	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end
+function next_step()
+	install_step = install_step + 1
+end

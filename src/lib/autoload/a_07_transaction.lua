@@ -49,8 +49,8 @@ local math = math
 
 
 local show_progress = show_progress
-local install_steps = install_steps
 local calc_progress = calc_progress
+local next_step = next_step
 
 module "transaction"
 
@@ -88,7 +88,7 @@ local function pkg_unpack(operations, status)
 	-- +BB progress stuff
 	local length = utils.tablelength(operations)
 	local index = 0
-	install_step = install_step + 1 -- step #2
+	next_step()
 	-- -BB
 	for _, op in ipairs(operations) do
 		-- +BB reporting
@@ -181,7 +181,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
-	install_step = install_step + 1 -- step #3
+	next_step()
 	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
@@ -200,7 +200,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
-	install_step = install_step + 1 -- step #4
+	next_step()
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
@@ -241,7 +241,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	-- +BB progress stuff
 	local length = utils.tablelength(plan)
 	local index = 0
-	install_step = install_step + 1 -- step #5
+	next_step()
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
@@ -282,7 +282,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 
 	local length = utils.tablelength(plan)
 	local index = 0
-	install_step = install_step + 1 -- step #6
+	next_step()
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
@@ -506,6 +506,7 @@ function queue_install(filename)
 end
 
 function queue_install_downloaded(data, name, version, modifier, progress)
+	local install_steps = 7 -- FIXME: temporary solution, find better way 
 	local val = math.floor(progress * (1 / install_steps) + 0.5) -- do not add offset, this is 1st step
 --	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
 	show_progress("BB: Queue install of " .. name, val / 100)
