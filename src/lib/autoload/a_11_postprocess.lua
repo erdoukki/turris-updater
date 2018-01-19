@@ -41,6 +41,11 @@ local backend = require "backend"
 local requests = require "requests"
 local uri = require "uri"
 
+local show_progress = show_progress
+local install_step = install_step
+local calc_progress = calc_progress
+
+
 module "postprocess"
 
 -- luacheck: globals get_repos deps_canon conflicts_canon available_packages pkg_aggregate run get_content_pkgs sort_candidates

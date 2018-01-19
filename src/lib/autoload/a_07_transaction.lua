@@ -46,7 +46,11 @@ local log_event = log_event
 local sha256 = sha256
 local system_reboot = system_reboot
 local math = math
+
+
 local show_progress = show_progress
+local install_step = install_step
+local calc_progress = calc_progress
 
 module "transaction"
 
