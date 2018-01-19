@@ -155,4 +155,7 @@ function calc_progress(index, length)
 end
 function next_step()
 	install_step = install_step + 1
+	INFO("==================================================================")
+	INFO("current step: " .. install_step)
+	INFO("==================================================================")
 end

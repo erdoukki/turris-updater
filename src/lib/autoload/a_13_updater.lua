@@ -145,14 +145,10 @@ function prepare(entrypoint)
 		-- step #2
 		-- Now push all data into the transaction
 		for _, task in ipairs(tasks) do
-			-- BB update index
-			index = index + 1
-			local progress = index / length * 100
-			--
 			if task.action == "require" then
 				if task.package.data then -- package had content extra field and we already have data downloaded
-					INFO("1Queue install of " .. task.name .. "//" .. task.package.Version)
-					transaction.queue_install_downloaded(task.package.data, task.name, task.package.Version, task.modifier, progress)
+					INFO("!!!! 1Queue install of " .. task.name .. "//" .. task.package.Version)
+					transaction.queue_install_downloaded(task.package.data, task.name, task.package.Version, task.modifier)
 				else
 					local ok, data = task.real_uri:get()
 					if ok then
@@ -168,6 +164,12 @@ function prepare(entrypoint)
 								error(utils.exception("corruption", "The sha256 sum of " .. task.name .. " does not match"))
 							end
 						end
+
+					--	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
+						index = index + 1
+						local progress = calc_progress(index, length)
+						show_progress("BB: Queue install of " .. name, progress)
+
 						transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier, progress)
 					else
 						error(data)

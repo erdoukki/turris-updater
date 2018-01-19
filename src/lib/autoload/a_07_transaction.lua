@@ -505,11 +505,7 @@ function queue_install(filename)
 	end
 end
 
-function queue_install_downloaded(data, name, version, modifier, progress)
-	local install_steps = 7 -- FIXME: temporary solution, find better way 
-	local val = math.floor(progress * (1 / install_steps) + 0.5) -- do not add offset, this is 1st step
---	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
-	show_progress("BB: Queue install of " .. name, val / 100)
+function queue_install_downloaded(data, name, version, modifier)
 	table.insert(queue, {
 		op = "install",
 		data = data,
