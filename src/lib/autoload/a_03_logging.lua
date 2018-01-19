@@ -102,7 +102,7 @@ function scroll(direction, count)
 end
 
 function print_progress(value, col)
-	local length = ((math.floor(value * col)) - 5) / 2
+	local length = ((math.floor(value / 100 * col)) - 5) / 2
 	local bar = "["
 	for i = 1, length do bar = bar .. "=" end
 	bar = bar .. value .. "%"
