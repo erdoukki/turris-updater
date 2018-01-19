@@ -95,7 +95,7 @@ local function pkg_unpack(operations, status)
 		index = index + 1
 		local progress = calc_progress(index, length)
 	--	INFO("BB: (" .. progress .."% done) - Unpacking package " .. op.name)
-		show_progress("BB: Unpacking package " .. op.name, progress / 100)
+		show_progress("BB: Unpacking package " .. op.name, progress)
 	--	log_event("BB", "unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
@@ -189,7 +189,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			index = index + 1
 			local progress = calc_progress(index, length)
 --			INFO("BB: (" .. progress .. "% done) - Build list for package " .. op.control.Package .. " " .. op.control.Version)
-			show_progress("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
+			show_progress("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version, progress)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 			utils.table_merge(op.old_configs, steal)
@@ -207,7 +207,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		index = index + 1
 		local progress = calc_progress(index, length)
 --		INFO("BB: (" .. progress .. "% done) - Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
+		show_progress("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version, progress)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -273,7 +273,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 			script(errors_collected, op.name, "prerm", "remove")
 		end
 --		INFO("BB: (" .. progress .. "%  done) - " .. msg .. " package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress("BB:" .. msg .. " package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
+		show_progress("BB:" .. msg .. " package " .. op.control.Package .. " " .. op.control.Version, progress)
 	end
 	-- Clean up the files from removed or upgraded packages
 	INFO("Removing packages and leftover files")
@@ -289,7 +289,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 		index = index + 1
 		local progress = calc_progress(index, length)
 		--INFO("BB: (" .. progress .. "% done) - Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
-		show_progress("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version, progress / 100)
+		show_progress("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version, progress)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")

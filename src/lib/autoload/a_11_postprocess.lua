@@ -94,7 +94,7 @@ function get_repos()
 			-- +BB reporting
 			index = index + 1
 			local progress = calc_progress(index, length)
-			show_progress("Getting repository " .. name, progress / 100)
+			show_progress("Getting repository " .. name, progress)
 			-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)
