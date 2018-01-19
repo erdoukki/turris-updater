@@ -120,6 +120,7 @@ function show_progress(message, value)
 	if uci then
 		local cursor = uci.cursor()
 		local quiet = cursor:get("updater", "quiet")
+		INFO("quiet" .. tostring(quiet) .. " = " .. type(quiet))
 	else
 		ERROR("UCI library is not available.")
 	end
