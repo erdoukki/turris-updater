@@ -115,19 +115,18 @@ function show_progress(message, value)
 	local size = get_screen_size()
 	local row = size[1]
 	local col = size[2]
+	local quiet = nil
 
 	-- get settings TODO: move outside, so it's not checked on every call
 	if uci then
 		local cursor = uci.cursor()
-		local quiet = cursor:get("updater", "quiet")
-		INFO("quiet" .. tostring(quiet) .. " = " .. type(quiet))
+		quiet = cursor:get("updater", "quiet")
 	else
 		ERROR("UCI library is not available.")
 	end
 	-- 
 
 	if quiet ~= "true" then				-- change for turning progress info on/off
-		INFO("quiet is " .. tostring(quiet))
 		INFO(message)
 		set_cursor(row,1)
 		io.write(csi .. "2K")	-- clear line
