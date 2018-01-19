@@ -146,3 +146,9 @@ function get_screen_size()
 	result = result:gsub("\n", "")
 	return split(result, " ")
 end
+
+install_steps = 7  -- total install steps for reporting progress
+install_step = 0   -- current index
+function calc_progress(index, length)
+	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+end

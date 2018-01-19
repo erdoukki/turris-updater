@@ -50,12 +50,6 @@ local show_progress = show_progress
 
 module "transaction"
 
-local install_steps = 6  -- total install steps for reporting progress
-local install_step = 0   -- current index
-local function calc_progress(index, length)
-	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
-end
-
 -- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
 
 -- Wrap the call to the maintainer script, and store any possible errors for later use

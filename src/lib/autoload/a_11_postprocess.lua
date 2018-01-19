@@ -70,15 +70,26 @@ function get_repos()
 	(which may be different from the order in which they are called
 	anyway).
 	]]
+
+	-- +BB progress stuff
+	local length = 0
+	for _, repo in pairs(requests.known_repositories_all) do
+		length = length + utils.tablelength(repo)
+	end
+	local index = 0
+	install_step = install_step + 1 -- step #3
+	-- -BB
+
 	for _, repo in pairs(requests.known_repositories_all) do
 		repo.tp = 'parsed-repository'
 		repo.content = {}
 		for subrepo, index_uri in pairs(utils.private(repo).index_uri) do
 			local name = repo.name .. "/" .. index_uri.uri
-		-- +BB report 
-			-- log_event("G", "get_repo: " .. name)
-			INFO("Getting repository " .. name)
-		-- -BB
+			-- +BB reporting
+			index = index + 1
+			local progress = calc_progress(index, length)
+			show_progress("Getting repository " .. name, progress / 100)
+			-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)
 				ERROR("Index " .. name .. " is broken (" .. why .. "): " .. tostring(extra))
@@ -108,7 +119,7 @@ function get_repos()
 			end
 			local function decompressed(ecode, _, stdout, stderr)
 				DBG("Decompression of " .. name .. " done")
-				INFO("Decompression of " .. name .. " done")
+			--	INFO("Decompression of " .. name .. " done")
 				if ecode == 0 then
 					parse(stdout)
 				else
@@ -117,7 +128,7 @@ function get_repos()
 			end
 			local function downloaded(ok, answer)
 				DBG("Received repository index " .. name)
-				INFO("Received repository index " .. name)
+			--	INFO("Received repository index " .. name)
 				if not ok then
 					-- Couldn't download
 					-- TODO: Once we have validation, this could also mean the integrity is broken, not download
