@@ -41,6 +41,11 @@ local pairs = pairs
 local tostring = tostring
 local type = type
 
+local show_progress = show_progress
+local install_step = install_step
+local install_steps = install_steps
+local calc_progress = calc_progress
+
 module "updater"
 
 -- luacheck: globals prepare pre_cleanup cleanup required_pkgs disable_replan
