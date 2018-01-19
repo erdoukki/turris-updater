@@ -78,8 +78,11 @@ function get_repos()
 	-- +BB progress stuff
 	local length = 0
 	for _, repo in pairs(requests.known_repositories_all) do
-		length = length + utils.tablelength(repo)
+		for _, __ in pairs(utils.private(repo).index_uri) do
+			length = length + 1 -- utils.tablelength(repo)
+		end
 	end
+	INFO("============================\ncomputed length: " .. length .. "\n=====================================")
 	local index = 0
 	next_step()
 	-- -BB
