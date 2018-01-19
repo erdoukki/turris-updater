@@ -168,7 +168,7 @@ function prepare(entrypoint)
 					--	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
 						index = index + 1
 						local progress = calc_progress(index, length)
-						show_progress("BB: Queue install of " .. name, progress)
+						show_progress("BB: Queue install of " .. task.name, progress)
 
 						transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier, progress)
 					else
