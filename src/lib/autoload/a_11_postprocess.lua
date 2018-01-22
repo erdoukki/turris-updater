@@ -44,6 +44,8 @@ local uri = require "uri"
 local show_progress = show_progress
 local progress_next_step = progress_next_step
 
+local print = print
+
 module "postprocess"
 
 -- luacheck: globals get_repos deps_canon conflicts_canon available_packages pkg_aggregate run get_content_pkgs sort_candidates
@@ -78,10 +80,10 @@ function get_repos()
 	local length = 0
 	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
-		io.write(">> top level, " .. length)
+		print(">> top level, " .. length)
 		for s_, __ in pairs(utils.private(repo).index_uri) do
 			length = length + 1
-			io.write(">>>> " .. s_ .. length)
+			print(">>>> " .. s_ .. length)
 		end
 	end
 	progress_next_step()
