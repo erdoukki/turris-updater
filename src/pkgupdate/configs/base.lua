@@ -61,20 +61,9 @@ if lists then
 		lists = {lists}
 	end
 	-- Go through user lists and pull them in.
-	-- BB: progress stuff
-	local length = 20 -- just some random value because following does not work (yet): utils.tablelength(lists)
-	local index = 0
-	progress_next_step()
-	-- -BB
-
 	local exec_list = {} -- We want to run userlist only once even if it's defined multiple times
 	if type(lists) == "table" then
 		for _, l in ipairs(lists) do
-			-- BB: progress stuff
-			index = index + 1
-			show_progress("BB: looking at list " .. l, index, length)
-			-- -BB
-			
 			if exec_list[l] then
 				WARN("User list " .. l .. " specified multiple times")
 			else
