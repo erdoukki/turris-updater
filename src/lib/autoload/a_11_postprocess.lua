@@ -79,8 +79,8 @@ function get_repos()
 	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
 		for s_, __ in pairs(utils.private(repo).index_uri) do
-			INFO(">> " .. s_)
 			length = length + 1
+			INFO(">> " .. s_ .. length)
 		end
 	end
 	progress_next_step()
