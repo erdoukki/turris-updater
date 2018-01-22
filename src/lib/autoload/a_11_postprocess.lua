@@ -84,6 +84,7 @@ function get_repos()
 	print("--tlen:  " .. tlen)
 	print("--starting " .. utils.tablelength(requests.known_repositories_all))
 	print("--length " .. length)
+	print("???????")
 	for _, repo in pairs(requests.known_repositories_all) do
 		print(">> top level, " .. length)
 		for s_, __ in pairs(utils.private(repo).index_uri) do
