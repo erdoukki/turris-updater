@@ -79,7 +79,8 @@ function get_repos()
 	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
 		for _, __ in pairs(utils.private(repo).index_uri) do
-			length = length + 1 -- utils.tablelength(repo)
+			INFO(">> " .. _ .. " -- " .. __)
+			length = length + 1
 		end
 	end
 	progress_next_step()
@@ -140,7 +141,6 @@ function get_repos()
 				elseif answer:sub(1, 2) == string.char(0x1F, 0x8B) then
 					-- It starts with gzip magic - we want to decompress it
 					DBG("Index " .. name .. " is compressed, decompressing")
-					INFO("Index " .. name .. " is compressed, decompressing")
 					table.insert(extract_events, run_util(decompressed, nil, answer, -1, -1, 'gzip', '-dc'))
 				else
 					parse(answer)
