@@ -78,9 +78,10 @@ function get_repos()
 	local length = 0
 	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
+		INFO(">> top level, " .. length)
 		for s_, __ in pairs(utils.private(repo).index_uri) do
 			length = length + 1
-			INFO(">> " .. s_ .. length)
+			INFO(">>>> " .. s_ .. length)
 		end
 	end
 	progress_next_step()
