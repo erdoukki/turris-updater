@@ -42,8 +42,7 @@ local requests = require "requests"
 local uri = require "uri"
 
 local show_progress = show_progress
-local calc_progress = calc_progress
-local next_step = next_step
+local progress_next_step = progress_next_step
 
 module "postprocess"
 
@@ -83,7 +82,7 @@ function get_repos()
 			length = length + 1 -- utils.tablelength(repo)
 		end
 	end
-	next_step()
+	progress_next_step()
 	-- -BB
 
 	for _, repo in pairs(requests.known_repositories_all) do
@@ -93,8 +92,7 @@ function get_repos()
 			local name = repo.name .. "/" .. index_uri.uri
 			-- +BB reporting
 			index = index + 1
-			local progress = calc_progress(index, length)
-			show_progress("Getting repository " .. name, progress)
+			show_progress("Getting repository " .. name, index, length)
 			-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)

@@ -110,8 +110,9 @@ function print_progress(value, col)
     io.write(bar .. "]")
 end
 
-function show_progress(message, value)
+function show_progress(message, index, length)
 	-- setup variables
+	local value = calc_progress(index, length)
 	local size = get_screen_size()
 	local row = size[1]
 	local col = size[2]
@@ -153,9 +154,9 @@ function calc_progress(index, length)
 	INFO("BB: calc_progress: " .. install_step .. "/" .. install_steps .. " - " .. index .. "/" .. length)
 	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end
-function next_step()
+function progress_next_step()
 	install_step = install_step + 1
-	INFO("==================================================================")
-	INFO("current step: " .. install_step)
-	INFO("==================================================================")
+--	INFO("==================================================================")
+--	INFO("current step: " .. install_step)
+--	INFO("==================================================================")
 end

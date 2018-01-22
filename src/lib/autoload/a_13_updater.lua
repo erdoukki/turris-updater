@@ -42,8 +42,7 @@ local tostring = tostring
 local type = type
 
 local show_progress = show_progress
-local calc_progress = calc_progress
-local next_step = next_step
+local progress_next_step = progress_next_step
 
 module "updater"
 
@@ -141,7 +140,7 @@ function prepare(entrypoint)
 		-- BB get length of transaction for reporting 
 		local length = utils.tablelength(tasks)
 		local index = 0
-		next_step()
+		progress_next_step()
 		-- step #2
 		-- Now push all data into the transaction
 		for _, task in ipairs(tasks) do
@@ -165,10 +164,9 @@ function prepare(entrypoint)
 							end
 						end
 
-					--	INFO("BB: (" .. val .. "% done) - Queue install of " .. name)
+					--	BB: prgress
 						index = index + 1
-						local progress = calc_progress(index, length)
-						show_progress("BB: Queue install of " .. task.name, progress)
+						show_progress("BB: Queue install of " .. task.name, index, length)
 
 						transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier, progress)
 					else
