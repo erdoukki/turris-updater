@@ -84,6 +84,7 @@ function get_repos()
 		end
 	end
 	progress_next_step()
+	INFO(">> total: " .. length)
 	-- -BB
 
 	for _, repo in pairs(requests.known_repositories_all) do
