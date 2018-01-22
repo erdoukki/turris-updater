@@ -80,6 +80,8 @@ function get_repos()
 	local length = 0
 	local index = 0
 
+	local tlen = utils.tablelength(requests.known_repositories_all)
+	print("--tlen:  " .. tlen)
 	print("--starting " .. utils.tablelength(requests.known_repositories_all))
 	print("--length " .. length)
 	for _, repo in pairs(requests.known_repositories_all) do
