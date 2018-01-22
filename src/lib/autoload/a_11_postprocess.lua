@@ -79,7 +79,7 @@ function get_repos()
 	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
 		for _, __ in pairs(utils.private(repo).index_uri) do
-			INFO(">> " .. _ .. " -- " .. __)
+			INFO(">> " .. _ )
 			length = length + 1
 		end
 	end
