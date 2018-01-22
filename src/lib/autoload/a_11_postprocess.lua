@@ -79,6 +79,9 @@ function get_repos()
 	-- +BB progress stuff
 	local length = 0
 	local index = 0
+
+	print("--starting " .. utils.tablelength(requests.known_repositories_all))
+	print("--length " .. length)
 	for _, repo in pairs(requests.known_repositories_all) do
 		print(">> top level, " .. length)
 		for s_, __ in pairs(utils.private(repo).index_uri) do
