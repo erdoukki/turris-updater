@@ -87,8 +87,10 @@ function get_repos()
 	print("???????")
 	for _, repo in pairs(requests.known_repositories_all) do
 		print(">> top level, " .. length)
+		print(">> top level, " .. length)
 		for s_, __ in pairs(utils.private(repo).index_uri) do
 			length = length + 1
+			print(">>>> " .. s_ .. length)
 			print(">>>> " .. s_ .. length)
 		end
 	end
