@@ -54,8 +54,6 @@ local handle = io.popen([[
 	fi
 	]])
 local result = handle:read("*a")
-INFO("BB: MKDIR returned - " .. result)
-
 
 -- Additional enabled distribution lists
 if lists then
@@ -63,10 +61,20 @@ if lists then
 		lists = {lists}
 	end
 	-- Go through user lists and pull them in.
+	-- BB: progress stuff
+	local length = utils.tablelength(lists)
+	local index = 0
+	progress_next_step()
+	-- -BB
+
 	local exec_list = {} -- We want to run userlist only once even if it's defined multiple times
 	if type(lists) == "table" then
 		for _, l in ipairs(lists) do
-			INFO("BB: looking at list " .. l)
+			-- BB: progress stuff
+			index = index + 1
+			show_progress("BB: looking at list " .. l, index, length)
+			-- -BB
+			
 			if exec_list[l] then
 				WARN("User list " .. l .. " specified multiple times")
 			else
