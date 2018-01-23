@@ -128,7 +128,7 @@ function show_progress(message, index, length)
 	-- 
 
 	if quiet ~= "true" then				-- change for turning progress info on/off
---		INFO(value .. "%:" .. message)
+		INFO(value .. "%:" .. message)
 		set_cursor(row,1)
 		io.write(csi .. "2K")	-- clear line
 		scroll("up", 1)
