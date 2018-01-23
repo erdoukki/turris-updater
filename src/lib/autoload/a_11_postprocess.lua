@@ -84,6 +84,7 @@ function get_repos()
 			length = length + 1
 		end
 	end
+	length = length * 2
 	progress_next_step()
 	-- -BB
 
@@ -107,7 +108,11 @@ function get_repos()
 			end
 			local function parse(content)
 				DBG("Parsing index " .. name)
-				INFO("Parsing index " .. name)
+--				INFO("Parsing index " .. name)
+				-- +BB reporting
+				index = index + 1
+				show_progress("Parsing index " .. name, index, length)
+				-- -BB
 				local ok, list = pcall(backend.repo_parse, content)
 				if ok then
 					for _, pkg in pairs(list) do
