@@ -187,15 +187,10 @@ function get_content_pkgs()
 	local errors = {}
 
 	local length = utils.tablelength(requests.known_content_packages)
-	local index = 0
 
 	for _, pkg in pairs(requests.known_content_packages) do
 		local content_uri = utils.private(pkg).content_uri
 		table.insert(uris, content_uri)
-		-- BB update index
-		index = index + 1
-		local progress = index / length * 100
-		-- -BB
 		-- +BB report 
 		-- log_event('G', "get_content_pkg:" .. content_uri)
 		INFO("BB: Get content for package " .. pkg.name .. "(should be followed by download)")
