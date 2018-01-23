@@ -93,12 +93,14 @@ function restore_cursor()
 	io.write(csi .. "u")
 end
 
+function clear_line()
+	io.write(csi .. "2K")
+end
+
 function scroll(direction, count)
-    if direction == "up" then
-        io.write(csi .. count .. "S")
-    else
-        io.write(csi .. count .. "T")
-    end
+	local dir = "T"
+    if direction == "up" then dir = "S" end
+    io.write(csi .. count .. dir)
 end
 
 function print_progress(value, col)
@@ -130,7 +132,7 @@ function show_progress(message, index, length)
 	if quiet ~= "true" then				-- change for turning progress info on/off
 		INFO(value .. "%:" .. message)
 		set_cursor(row,1)
-		io.write(csi .. "2K")	-- clear line
+		clear_line()
 		scroll("up", 1)
 		set_cursor(row,1)
 		print_progress(value, col)
