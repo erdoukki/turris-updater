@@ -186,6 +186,11 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			show_progress("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version, index, length)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
+
+			-- +BB
+			utils.savetxt(steal)
+			-- -BB
+
 			utils.table_merge(op.old_configs, steal)
 			utils.table_merge(all_configs, op.old_configs)
 		end

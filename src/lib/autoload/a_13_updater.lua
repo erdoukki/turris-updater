@@ -53,40 +53,6 @@ function disable_replan()
 	allow_replan = false
 end
 
--- +BB support for saving table to a file (debug stuff)
-
-function print_r (t, fd)
-    fd = fd or io.stdout
-    local function print(str)
-       str = str or ""
-       fd:write(str.."\n")
-	end
-	for key, value in pairs(t) do
-		-- all values are tables
-		print("\n" .. tostring(key) .. "--------------------------------\n")
-		for k, v in pairs(value) do
-		--	if type(v) == "table" then
-			if k == "package" then
-				print(tostring(k) .. ": [")
-				for kk, vv in pairs (v) do
-					print("  " .. tostring(kk) .. ": " .. tostring(vv) .. "")
-				end
-				print("]")
-			else
-				print(tostring(k) .. ": " .. tostring(v) .. "")	
-			end
-		end
-	end
-end
-
-function savetxt (t)
-	local file = assert(io.open("/root/test.txt", "w"))
-	print_r(t, file)
-	file:close()
- end
-
--- -BB
-
 
 function required_pkgs(entrypoint)
 	-- Get the top-level script
