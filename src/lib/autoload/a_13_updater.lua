@@ -72,7 +72,7 @@ function required_pkgs(entrypoint)
 	postprocess.run()
 --	return planner.required_pkgs(postprocess.available_packages, requests.content_requests)
 	local output = planner.required_pkgs(postprocess.available_packages, requests.content_requests)
-	savetxt(output)
+	utils.savetxt(output)
 	return output
 end
 
