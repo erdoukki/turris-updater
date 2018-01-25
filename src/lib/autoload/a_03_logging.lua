@@ -120,17 +120,18 @@ function show_progress(message, index, length)
 	local col = size[2]
 	local quiet = nil
 
-	-- get settings TODO: move outside, so it's not checked on every call
+	-- get settings ("updater.quiet" for verbosity settings)
+	-- TODO: move outside, so it's not checked on every call
 	if uci then
 		local cursor = uci.cursor()
 		quiet = cursor:get("updater", "quiet")
 	else
 		ERROR("UCI library is not available.")
 	end
-	-- 
 
-	if quiet ~= "true" then				-- change for turning progress info on/off
-		INFO(value .. "%:" .. message)
+	-- show message when verbosity is on
+	if quiet ~= "true" then
+		INFO(value .. "%:" .. string.len(message) .. ":" .. message)
 		set_cursor(row,1)
 		clear_line()
 		scroll("up", 1)
@@ -153,12 +154,8 @@ end
 install_steps = 7  -- total install steps for reporting progress
 install_step = -1   -- current index (all steps increase by 1, to make code simpler, so we start with -1, so first step can be 0)
 function calc_progress(index, length)
---	INFO("BB: calc_progress: " .. install_step .. "/" .. install_steps .. " - " .. index .. "/" .. length)
 	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end
 function progress_next_step()
 	install_step = install_step + 1
---	INFO("==================================================================")
---	INFO("current step: " .. install_step)
---	INFO("==================================================================")
 end

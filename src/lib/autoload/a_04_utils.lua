@@ -315,28 +315,29 @@ end
 
 -- +BB support for saving table to a file (debug stuff)
 
-function print_r (t, fd)
-    fd = fd or io.stdout
-    local function print(str)
-       str = str or ""
-       fd:write(str.."\n")
-	end
-	for key, value in pairs(t) do
-		-- all values are tables
-		print("\n" .. tostring(key) .. "--------------------------------\n")
-		for k, v in pairs(value) do
-		--	if type(v) == "table" then
-			if k == "package" then
-				print(tostring(k) .. ": [")
-				for kk, vv in pairs (v) do
-					print("  " .. tostring(kk) .. ": " .. tostring(vv) .. "")
-				end
-				print("]")
-			else
-				print(tostring(k) .. ": " .. tostring(v) .. "")	
-			end
-		end
-	end
+--[[
+	Return molded table, subtables are indented by two spaces
+]]
+function mold_table(table)
+    local indent = ""
+    local output = ""
+    function submold_table(table)
+        for key, value in pairs(table) do
+            if type(value) == "table" then
+                output = output .. indent .. key .. " = {\n"
+                indent = indent .. "  "
+                submold_table(value)
+                indent = indent:sub(1, -3)          -- unindent
+                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
+                output = output .. indent .. "}\n"
+            else
+                output = output .. indent .. key .. " = " .. value .. ",\n"
+            end
+        end        
+    end
+    submold_table(table)
+    output = output:sub(1, -3) .. "\n" -- get rid of last comma
+    return output
 end
 
 function savetxt (t)
