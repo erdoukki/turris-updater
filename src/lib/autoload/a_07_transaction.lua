@@ -188,7 +188,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 
 			-- +BB
-			utils.write_table(steal)
+			utils.savetxt(steal)
 			-- -BB
 
 			utils.table_merge(op.old_configs, steal)
