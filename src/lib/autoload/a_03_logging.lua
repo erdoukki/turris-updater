@@ -143,7 +143,7 @@ function show_progress(message, index, length)
 		clear_line()
 		scroll("up", 1)
 		set_cursor(row,1)
-		if scrollby = 2 then
+		if scrollby == 2 then
 			clear_line()
 			scroll("up", 1)
 			set_cursor(row,1)	
