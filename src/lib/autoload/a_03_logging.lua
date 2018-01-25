@@ -133,7 +133,7 @@ function show_progress(message, index, length)
 	-- if yes, we will shorten the message to prevent garbage 
 	local msg_len = string.len(message) + 15 -- 15 is for the info at start (cca) 
 	if msg_len > tonumber(col) then 
-		msg_len = msg_len - tonumber(col)
+		msg_len = 0 - (msg_len - tonumber(col))
 		message = message:sub(1, msg_len)
 	end
 
