@@ -331,7 +331,7 @@ function mold_table(table)
                 output = output:sub(1, -3) .. "\n"  -- get rid of last comma
                 output = output .. indent .. "}\n"
             else
-                output = output .. indent .. key .. " = " .. value .. ",\n"
+                output = output .. indent .. key .. " = " .. tostring(value) .. ",\n"
             end
         end        
     end
