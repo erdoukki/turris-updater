@@ -342,7 +342,7 @@ end
 
 function savetxt (t)
 	local file = assert(io.open("/root/test.txt", "w"))
-	print_r(t, file)
+	io.write(mold_table(t))
 	file:close()
  end
 
