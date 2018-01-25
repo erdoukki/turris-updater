@@ -35,6 +35,8 @@ local run_util = run_util
 
 local tostring = tostring
 
+local INFO = INFO
+
 module "utils"
 
 -- luacheck: globals lines2set map set2arr arr2set cleanup_dirs slurp clone shallow_copy table_merge arr_append exception multi_index private filter_best strip table_overlay tablelength randstr arr_prune arr_inv
