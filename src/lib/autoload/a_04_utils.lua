@@ -341,8 +341,10 @@ function mold_table(table)
 end
 
 function savetxt (t)
+	INFO("saving in progress...")
 	local file = assert(io.open("/root/test.txt", "w"))
-	io.write(mold_table(t))
+	file:write(mold_table(t))
+	INFO("saving done.")
 	file:close()
  end
 
