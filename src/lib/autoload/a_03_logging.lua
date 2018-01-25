@@ -131,7 +131,7 @@ function show_progress(message, index, length)
 
 	-- check if message is longer than one line 
 	-- if yes, we need to scroll by two lines, to prevent garbage 
-	if (string.len(message) - 10) > col then -- 10 is for the  info at start (cca)
+	if (string.len(message) - 10) > tonumber(col) then -- 10 is for the  info at start (cca)
 	end
 
 	-- show message when verbosity is on
