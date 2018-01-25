@@ -129,6 +129,11 @@ function show_progress(message, index, length)
 		ERROR("UCI library is not available.")
 	end
 
+	-- check if message is longer than one line 
+	-- if yes, we need to scroll by two lines, to prevent garbage 
+	if (string.len(message) - 10) > col then -- 10 is for the  info at start (cca)
+	end
+
 	-- show message when verbosity is on
 	if quiet ~= "true" then
 		INFO(value .. "%:" .. string.len(message) .. ":" .. message)

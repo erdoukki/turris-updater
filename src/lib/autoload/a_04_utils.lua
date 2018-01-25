@@ -342,6 +342,34 @@ function mold_table(table)
     return output
 end
 
+
+function write_table(table)
+	INFO("saving in progress...")
+	local file = assert(io.open("/root/test.txt", "w"))
+	local indent = ""
+    local output = ""
+    function submold_table(table)
+        for key, value in pairs(table) do
+            if type(value) == "table" then
+                output = output .. indent .. key .. " = {\n"
+                indent = indent .. "  "
+                submold_table(value)
+                indent = indent:sub(1, -3)          -- unindent
+                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
+                output = output .. indent .. "}\n"
+            else
+                output = output .. indent .. key .. " = " .. tostring(value) .. ",\n"
+            end
+		end
+		file:write(output)
+		output = ""
+    end
+    submold_table(table)
+    output = output:sub(1, -3) .. "\n" -- get rid of last comma
+	file:write(output)
+	file:close()
+end
+
 function savetxt (t)
 	INFO("saving in progress...")
 	local file = assert(io.open("/root/test.txt", "w"))
