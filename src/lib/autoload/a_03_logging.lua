@@ -129,16 +129,17 @@ function show_progress(message, index, length)
 		ERROR("UCI library is not available.")
 	end
 
-	local scrollby = 1
 	-- check if message is longer than one line 
-	-- if yes, we need to scroll by two lines, to prevent garbage 
-	if (string.len(message) + 15) > tonumber(col) then -- 15 is for the info at start (cca)
-		scrollby = 2
+	-- if yes, we will shorten the message to prevent garbage 
+	local msg_len = string.len(message) + 15 -- 15 is for the info at start (cca) 
+	if msg_len > tonumber(col) then 
+		msg_len = msg_len - tonumber(col)
+		message = message:sub(1, msg_len)
 	end
 
 	-- show message when verbosity is on
 	if quiet ~= "true" then
-		INFO(value .. "%:" .. string.len(message) .. ":" .. scrollby .. "-" .. message)
+		INFO(value .. "%:" .. string.len(message) .. ":" .. msg_len .. "-" .. message)
 		set_cursor(row,1)
 		clear_line()
 		scroll("up", 1)
