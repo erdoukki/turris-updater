@@ -152,7 +152,7 @@ function prepare(entrypoint)
 				DIE("Unknown action " .. task.action)
 			end
 		end
-		save_table("/root/hashes.txt", hashes)
+		utils.save_table("/root/hashes.txt", hashes)
 	end
 end
 
