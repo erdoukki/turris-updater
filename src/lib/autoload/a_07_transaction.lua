@@ -179,6 +179,9 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	local length = utils.tablelength(plan)
 	local index = 0
 	progress_next_step()
+
+	utils.save_table("/root/plan07.txt", plan, 3)
+
 	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
