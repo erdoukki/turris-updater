@@ -360,7 +360,7 @@ function mold_table(table, depth)
                 output = output .. indent .. key .. " = {\n"
 				indent = indent .. "  "
 				depth = depth - 1
-				submold_table(value)
+				submold_table(value, depth)
 				depth = depth + 1
                 indent = indent:sub(1, -3)          -- unindent
 --                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
