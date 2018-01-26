@@ -346,6 +346,7 @@ function mold_value(value)
 end
 
 function mold_table(table, depth)
+	if depth == nil then depth = 999 end -- max allowed depth
     local indent = ""
 	local output = ""
 	-- TODO: write just `mold` that wouldn't need this
