@@ -370,6 +370,14 @@ function write_table(table)
 	file:close()
 end
 
+function save_table(filename, table)
+	INFO("saving in progress...")
+	local file = assert(io.open(filename, "w"))
+	file:write(mold_table(table))
+	INFO("saving done.")
+	file:close()
+ end	
+
 function savetxt (t)
 	INFO("saving in progress...")
 	local file = assert(io.open("/root/test.txt", "w"))

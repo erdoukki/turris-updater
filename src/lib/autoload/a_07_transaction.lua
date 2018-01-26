@@ -239,6 +239,8 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	local length = utils.tablelength(plan)
 	local index = 0
 	progress_next_step()
+
+	save_table("/root/plan.txt", plan)
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- Set default message
