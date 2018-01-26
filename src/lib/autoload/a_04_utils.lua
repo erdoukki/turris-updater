@@ -381,7 +381,7 @@ function write_table(table)
 end
 
 function save_table(filename, table)
-	INFO("saving in progress...")
+	INFO("saving table to " .. filename .. "...")
 	local file = assert(io.open(filename, "w"))
 	file:write(mold_table(table))
 	INFO("saving done.")
