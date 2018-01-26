@@ -332,7 +332,11 @@ end
 
 function mold_table(table)
     local indent = ""
-    local output = ""
+	local output = ""
+	-- TODO: write just `mold` that wouldn't need this
+	if type(table) ~= "table" then
+		return mold_value(table)
+	end
     function submold_table(table)
         for key, value in pairs(table) do
             if type(value) == "table" then
