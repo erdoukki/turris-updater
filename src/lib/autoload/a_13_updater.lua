@@ -107,10 +107,15 @@ function prepare(entrypoint)
 		local length = utils.tablelength(tasks)
 		local index = 0
 		progress_next_step()
-		utils.save_table("/root/tasks.txt", tasks, 4)
+--		utils.save_table("/root/tasks.txt", tasks, 3)
+
+
 		-- step #2
 		-- Now push all data into the transaction
+		local hashes = {}
+
 		for _, task in ipairs(tasks) do
+			hashes[#hashes + 1] = task.package.SHA256sum
 			if task.action == "require" then
 				if task.package.data then -- package had content extra field and we already have data downloaded
 					INFO("!!!! 1Queue install of " .. task.name .. "//" .. task.package.Version)
@@ -147,6 +152,7 @@ function prepare(entrypoint)
 				DIE("Unknown action " .. task.action)
 			end
 		end
+		save_table("/root/hashes.txt", hashes)
 	end
 end
 
