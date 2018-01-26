@@ -50,6 +50,7 @@ local math = math
 
 local show_progress = show_progress
 local progress_next_step = progress_next_step
+local save_table = save_table
 
 module "transaction"
 
@@ -241,6 +242,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	progress_next_step()
 
 	save_table("/root/plan.txt", plan)
+
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- Set default message
