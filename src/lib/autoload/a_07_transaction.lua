@@ -241,7 +241,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	local index = 0
 	progress_next_step()
 
-	utils.save_table("/root/plan.txt", plan)
+--	utils.save_table("/root/plan.txt", plan)
 
 	-- -BB
 	for _, op in ipairs(plan) do
