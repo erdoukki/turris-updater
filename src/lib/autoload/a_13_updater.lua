@@ -107,7 +107,7 @@ function prepare(entrypoint)
 		local length = utils.tablelength(tasks)
 		local index = 0
 		progress_next_step()
-		utils.save_table("/root/tasks.txt", plan)
+		utils.save_table("/root/tasks.txt", tasks)
 		-- step #2
 		-- Now push all data into the transaction
 		for _, task in ipairs(tasks) do
