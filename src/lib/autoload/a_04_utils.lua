@@ -318,8 +318,17 @@ end
 -- +BB support for saving table to a file (debug stuff)
 
 --[[
-	Return molded table, subtables are indented by two spaces
+    mold value other than table
 ]]
+function mold_value(value)
+    local output = ""
+    if type(value) == "string" then
+        output = '"' .. value .. '"'
+    else
+        output = tostring(value)
+    end
+end
+
 function mold_table(table)
     local indent = ""
     local output = ""
@@ -330,10 +339,10 @@ function mold_table(table)
                 indent = indent .. "  "
                 submold_table(value)
                 indent = indent:sub(1, -3)          -- unindent
-                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
+--                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
                 output = output .. indent .. "}\n"
             else
-                output = output .. indent .. key .. " = " .. tostring(value) .. ",\n"
+                output = output .. indent .. key .. " = " .. mold_value(value) .. ",\n"
             end
         end        
     end
