@@ -326,7 +326,8 @@ function mold_value(value)
         output = '"' .. value .. '"'
     else
         output = tostring(value)
-    end
+	end
+	return output
 end
 
 function mold_table(table)
