@@ -143,7 +143,7 @@ local function pkg_unpack(operations, status)
 			error("Unknown operation " .. op.op)
 		end
 	end
-	utils.save_table("/root/plan07-pkgunpack.txt", plan[1])
+	utils.save_table("/root/to-install.txt", to_install)
 	return to_remove, to_install, plan, dir_cleanups, cleanup_actions
 end
 
@@ -230,7 +230,6 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	INFO("Running post-install and post-rm scripts")
 	-- +BB progress stuff
 	progress_next_step(utils.tablelength(plan))
-	utils.save_table("/root/plan07-pkgscripts.txt", plan[1])
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- Set default message

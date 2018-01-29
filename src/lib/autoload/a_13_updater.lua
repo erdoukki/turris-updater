@@ -109,7 +109,10 @@ function prepare(entrypoint)
 			else
 				local ok, data = task.real_uri:get()
 				if ok then
-					INFO("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
+--					INFO("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
+					--	BB: progress
+					show_progress("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
+					--	-BB
 					if task.package.MD5Sum then
 						local sum = md5(data)
 						if sum ~= task.package.MD5Sum then
@@ -122,9 +125,6 @@ function prepare(entrypoint)
 							error(utils.exception("corruption", "The sha256 sum of " .. task.name .. " does not match"))
 						end
 					end
-					--	BB: progress
-					show_progress("Queue install of " .. task.name)
-					--	-BB
 					transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier)
 				else
 					error(data)
