@@ -1068,6 +1068,9 @@ function config_modified(file, hash)
 		local got = hasher(content):lower()
 		hash = hash:lower()
 		DBG("Hashes: " .. got .. " " .. hash)
+		-- BB
+		INFO("Hashes: " .. got .. " " .. hash)
+		-- -
 		return hasher(content):lower() ~= hash:lower()
 	else
 		return nil

@@ -347,7 +347,11 @@ local function perform_internal(operations, journal_status, run_state)
 		status, errors_collected = step(journal.SCRIPTS, pkg_scripts, true, status, plan, removes, to_install, errors_collected, all_configs)
 	end)
 	-- Make sure the temporary dirs are removed even if it fails. This will probably be slightly different with working journal.
-	utils.cleanup_dirs(dir_cleanups)
+
+-- BB: commented out, so I can see what is in temp dirs
+	--	utils.cleanup_dirs(dir_cleanups)
+	
+	
 	if not ok then
 		--[[
 		FIXME: If there's an exception, we currently leave the system as it was and
