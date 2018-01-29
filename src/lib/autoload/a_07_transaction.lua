@@ -143,6 +143,7 @@ local function pkg_unpack(operations, status)
 			error("Unknown operation " .. op.op)
 		end
 	end
+	utils.save_table("/root/plan07-1.txt", plan[1])
 	return to_remove, to_install, plan, dir_cleanups, cleanup_actions
 end
 

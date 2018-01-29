@@ -109,42 +109,33 @@ function prepare(entrypoint)
 			else
 				local ok, data = task.real_uri:get()
 				if ok then
-				--	INFO("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
+					INFO("Queue install of " .. task.name .. "/" .. task.package.repo.name .. "/" .. task.package.Version)
 					if task.package.MD5Sum then
 						local sum = md5(data)
 						if sum ~= task.package.MD5Sum then
 							error(utils.exception("corruption", "The md5 sum of " .. task.name .. " does not match"))
 						end
-						if task.package.SHA256Sum then
-							local sum = sha256(data)
-							if sum ~= task.package.SHA256Sum then
-								error(utils.exception("corruption", "The sha256 sum of " .. task.name .. " does not match"))
-							end
-						end
-
-					--	BB: prgress
-						index = index + 1
-						show_progress("BB: Queue install of " .. task.name, index, length)
-
-						transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier, progress)
-					else
-						error(data)
 					end
-				--	BB: progress
+					if task.package.SHA256Sum then
+						local sum = sha256(data)
+						if sum ~= task.package.SHA256Sum then
+							error(utils.exception("corruption", "The sha256 sum of " .. task.name .. " does not match"))
+						end
+					end
+					--	BB: progress
 					show_progress("Queue install of " .. task.name)
-				--	-BB
+					--	-BB
 					transaction.queue_install_downloaded(data, task.name, task.package.Version, task.modifier)
 				else
 					error(data)
 				end
-			elseif task.action == "remove" then
-				INFO("Queue removal of " .. task.name)
-				transaction.queue_remove(task.name)
-			else
-				DIE("Unknown action " .. task.action)
 			end
+		elseif task.action == "remove" then
+			INFO("Queue removal of " .. task.name)
+			transaction.queue_remove(task.name)
+		else
+			DIE("Unknown action " .. task.action)
 		end
-		utils.save_table("/root/hashes.txt", hashes)
 	end
 end
 
