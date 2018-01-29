@@ -59,7 +59,7 @@ module "transaction"
 local function script(errors_collected, name, suffix, ...)
 	local ok, stderr = backend.script_run(name, suffix, ...)
 	if stderr and stderr:len() > 0 then
-		INFO("---------->8 check here 8<-----------")
+	--	INFO("---------->8 check here 8<-----------")
 		io.stderr:write("Output from " .. name .. "." .. suffix .. ":\n")
 		io.stderr:write(stderr)
 	end
@@ -143,7 +143,7 @@ local function pkg_unpack(operations, status)
 			error("Unknown operation " .. op.op)
 		end
 	end
-	utils.save_table("/root/plan07-1.txt", plan[1])
+	utils.save_table("/root/plan07-pkgunpack.txt", plan[1])
 	return to_remove, to_install, plan, dir_cleanups, cleanup_actions
 end
 
@@ -174,6 +174,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- Build list of all configs and steal from not-installed
 	-- +BB progress stuff
 	progress_next_step(utils.tablelength(plan))
+	utils.save_table("/root/plan07-pkgmove.txt", plan[1])	
 	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
@@ -229,6 +230,7 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 	INFO("Running post-install and post-rm scripts")
 	-- +BB progress stuff
 	progress_next_step(utils.tablelength(plan))
+	utils.save_table("/root/plan07-pkgscripts.txt", plan[1])
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- Set default message

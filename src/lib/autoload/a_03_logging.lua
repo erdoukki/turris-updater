@@ -140,7 +140,8 @@ function show_progress(message)
 
 	-- show message when verbosity is on
 	if quiet ~= "true" then
-		INFO(value .. "%:" .. string.len(message) .. ":" .. msg_len .. "-" .. message)
+	--	INFO(value .. "%:" .. string.len(message) .. ":" .. msg_len .. "-" .. message)
+		INFO(message)
 		set_cursor(row,1)
 		clear_line()
 		scroll("up", 1)
