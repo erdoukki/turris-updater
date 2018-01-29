@@ -71,7 +71,6 @@ end
 
 -- Stages of the transaction. Each one is written into the journal, with its results.
 local function pkg_unpack(operations, status)
-	utils.save_table("/root/operations.txt", operations[1])
 	INFO("Unpacking download packages")
 	local dir_cleanups = {}
 	--[[

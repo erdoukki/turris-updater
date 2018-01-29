@@ -362,6 +362,7 @@ function status_parse()
 	else
 		error("Couldn't read status file " .. status_file .. ": " .. err)
 	end
+	utils.save_table("/root/status-parse-result.txt", result)
 	return result
 end
 
