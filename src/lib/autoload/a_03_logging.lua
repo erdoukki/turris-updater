@@ -112,16 +112,17 @@ function print_progress(value, col)
     io.write(bar .. "]")
 end
 
-function show_progress(message, index, length)
+function show_progress(message)
+	-- increase substep index
+	step_index = step_index + 1
 	-- setup variables
-	local value = calc_progress(index, length)
+	local value = calc_progress()
 	local size = get_screen_size()
 	local row = size[1]
 	local col = size[2]
 	local quiet = nil
 
-	-- get settings ("updater.quiet" for verbosity settings)
-	-- TODO: move outside, so it's not checked on every call
+	-- get settings TODO: move outside, so it's not checked on every call
 	if uci then
 		local cursor = uci.cursor()
 		quiet = cursor:get("updater", "quiet")
@@ -164,11 +165,15 @@ function get_screen_size()
 	return split(result, " ")
 end
 
-install_steps = 7  -- total install steps for reporting progress
-install_step = -1   -- current index (all steps increase by 1, to make code simpler, so we start with -1, so first step can be 0)
-function calc_progress(index, length)
-	return math.floor((index / length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
+install_steps = 7	-- total install steps for reporting progress
+install_step = -1	-- current index (all steps increase by 1, to make code simpler, so we start with -1, so first step can be 0)
+step_length = 0 	-- number of substeps in current step
+step_index = 0
+function calc_progress()
+	return math.floor((step_index / step_length * 100) * (1 / install_steps) + (install_step / install_steps * 100) + 0.5)
 end
-function progress_next_step()
+function progress_next_step(length)
+	step_index = 0
+	step_length = length
 	install_step = install_step + 1
 end

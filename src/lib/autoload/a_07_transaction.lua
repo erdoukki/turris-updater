@@ -51,7 +51,6 @@ local math = math
 local show_progress = show_progress
 local progress_next_step = progress_next_step
 
-
 module "transaction"
 
 -- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
@@ -86,14 +85,11 @@ local function pkg_unpack(operations, status)
 	local plan = {}
 	local cleanup_actions = {}
 	-- +BB progress stuff
-	local length = utils.tablelength(operations)
-	local index = 0
-	progress_next_step()
+	progress_next_step(utils.tablelength(operations))
 	-- -BB
 	for _, op in ipairs(operations) do
 		-- +BB reporting
-		index = index + 1
-		show_progress("BB: Unpacking package " .. op.name, index, length)
+		show_progress("Unpacking package " .. op.name)
 		-- -BB
 		if op.op == "remove" then
 			if status[op.name] then
@@ -176,18 +172,12 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	local all_configs = {}
 	-- Build list of all configs and steal from not-installed
 	-- +BB progress stuff
-	local length = utils.tablelength(plan)
-	local index = 0
-	progress_next_step()
-
-	utils.save_table("/root/plan07.txt", plan, 3)
-
+	progress_next_step(utils.tablelength(plan))
 	-- -BB
 	for _, op in ipairs(plan) do
 		if op.op == "install" then
 			-- +BB reporting
-			index = index + 1
-			show_progress("BB: Build list for package " .. op.control.Package .. " " .. op.control.Version, index, length)
+			show_progress("Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
 			local steal = backend.steal_configs(status, installed_confs, op.configs)
 
@@ -201,14 +191,11 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 	-- -BB
 	-- Go through the list once more and perform the prepared operations
 	-- +BB progress stuff
-	local length = utils.tablelength(plan)
-	local index = 0
-	progress_next_step()
+	progress_next_step(utils.tablelength(plan))
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		index = index + 1
-		show_progress("BB: Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version, index, length)
+		show_progress("Perform " .. op.op .. " for package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "install" then
 			state_dump("install")
@@ -240,12 +227,7 @@ end
 local function pkg_scripts(status, plan, removes, to_install, errors_collected, all_configs)
 	INFO("Running post-install and post-rm scripts")
 	-- +BB progress stuff
-	local length = utils.tablelength(plan)
-	local index = 0
-	progress_next_step()
-
---	utils.save_table("/root/plan.txt", plan)
-
+	progress_next_step(utils.tablelength(plan))
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- Set default message
@@ -274,22 +256,19 @@ local function pkg_scripts(status, plan, removes, to_install, errors_collected, 
 			script(errors_collected, op.name, "prerm", "remove")
 		end
 		-- +BB reporting
-		index = index + 1
-		show_progress("BB:" .. msg .. " package " .. op.control.Package .. " " .. op.control.Version, index, length)
+		show_progress(msg .. " package " .. op.control.Package .. " " .. op.control.Version)
 	end
 	-- Clean up the files from removed or upgraded packages
 	INFO("Removing packages and leftover files")
 	state_dump("remove")
 	backend.pkg_cleanup_files(removes, all_configs)
 
-	local length = utils.tablelength(plan)
-	local index = 0
-	progress_next_step()
+	-- BB progress to next step
+	progress_next_step(utils.tablelength(plan))
 	-- -BB
 	for _, op in ipairs(plan) do
 		-- +BB reporting
-		index = index + 1
-		show_progress("BB: Cleanup after package " .. op.control.Package .. " " .. op.control.Version, index, length)
+		show_progress("Cleanup after package " .. op.control.Package .. " " .. op.control.Version)
 		-- -BB
 		if op.op == "remove" and not to_install[op.name] then
 			script(errors_collected, op.name, "postrm", "remove")

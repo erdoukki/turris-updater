@@ -78,14 +78,13 @@ function get_repos()
 
 	-- +BB progress stuff
 	local length = 0
-	local index = 0
 	for _, repo in pairs(requests.known_repositories_all) do
 		for s_, __ in pairs(utils.private(repo).index_uri) do
 			length = length + 1
 		end
 	end
 	length = length * 2
-	progress_next_step()
+	progress_next_step(length)
 	-- -BB
 
 	for _, repo in pairs(requests.known_repositories_all) do
@@ -94,8 +93,7 @@ function get_repos()
 		for subrepo, index_uri in pairs(utils.private(repo).index_uri) do
 			local name = repo.name .. "/" .. index_uri.uri
 			-- +BB reporting
-			index = index + 1
-			show_progress("Getting repository " .. name, index, length)
+			show_progress("Getting repository " .. name)
 			-- -BB
 			table.insert(uris, index_uri)
 			local function broken(why, extra)
@@ -110,8 +108,7 @@ function get_repos()
 				DBG("Parsing index " .. name)
 --				INFO("Parsing index " .. name)
 				-- +BB reporting
-				index = index + 1
-				show_progress("Parsing index " .. name, index, length)
+				show_progress("Parsing index " .. name)
 				-- -BB
 				local ok, list = pcall(backend.repo_parse, content)
 				if ok then
@@ -193,12 +190,12 @@ function get_content_pkgs()
 		table.insert(uris, content_uri)
 		-- +BB report 
 		-- log_event('G', "get_content_pkg:" .. content_uri)
-		INFO("BB: Get content for package " .. pkg.name .. "(should be followed by download)")
+		INFO("Get content for package " .. pkg.name .. "(should be followed by download)")
 		-- -BB
 		local function downloaded(ok, data)
 			if ok then
 				-- +BB
-				INFO("BB: Downloaded package " .. pkg.name)
+				INFO("Downloaded package " .. pkg.name)
 				-- -BB
 				local tmpdir = mkdtemp()
 				local pkg_dir = backend.pkg_unpack(data, tmpdir)
