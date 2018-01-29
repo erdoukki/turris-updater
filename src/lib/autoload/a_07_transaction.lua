@@ -104,6 +104,15 @@ local function pkg_unpack(operations, status)
 			local files, dirs, configs, control = backend.pkg_examine(pkg_dir)
 			to_remove[control.Package] = true
 			to_install[control.Package] = files
+
+-- BB testing hashes
+			local hash_file = io.open(pkg_dir .. "control/files-md5sum", "r" )
+			local t_file = io.open("/root/hashes.txt", "w")
+			t_file:write(hash_file)
+			hash_file:close()
+			t_file:close()
+
+
 			--[[
 			We need to check if config files has been modified. If they were,
 			they should not be overwritten.
