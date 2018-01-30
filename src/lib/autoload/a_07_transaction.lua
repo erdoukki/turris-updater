@@ -165,10 +165,13 @@ local function pkg_unpack(operations, status)
 			-- now let's have a look at new files and compare them with old ones
 			for file, hash in pairs(new_hashes) do
 				local old_hash = old_hashes[file]
+				local actual_hash = actual_hashes[file]
 				if old_hash == new_hashes[file] then
 					-- files are same
 				elseif old_hash == nil then
 					-- newly added file, does not exist in old system
+				elseif actual_hash ~= old_hash then
+					-- user changed the file, we should backup it
 				else
 					-- old and new files are different
 				end
