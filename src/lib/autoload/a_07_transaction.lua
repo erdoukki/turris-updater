@@ -43,6 +43,7 @@ local INFO = INFO
 local state_dump = state_dump
 local sync = sync
 local log_event = log_event
+local md5 = md5
 local sha256 = sha256
 local system_reboot = system_reboot
 local math = math
@@ -138,28 +139,47 @@ local function pkg_unpack(operations, status)
 	to get changes 
 ]]
 
-		-- load table with currently installed hashes
+			-- load table with currently installed hashes
 			local old_hashes = {}
 			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
 			if file == nil then
+				-- when we are installing something new, old hashes do not exist yet
 				WARN("File " .. op.name .. " does not exists!")
 			else
-			--	INFO("file: <" .. op.name .. ">" .. file .. "\n")
 				old_hashes = make_table(file)
-			--	INFO(">>>\n" .. utils.mold_table(old_hashes) .. "\n")
 			end
-
-			-- INFO(utils.mold_table(old_hashes))
-
-			local dir_t = utils.split(pkg_dir, "/")
-			local dir = dir_t[#dir_t]
-
 			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
 
 			-- load table with new hashes
 			local file = utils.load(pkg_dir .. "/control/files-md5sum")
 			local new_hashes = make_table(file)
 			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
+
+			-- make table with actual hashes, so we can check if user changed something
+			local actual_hashes = {}
+			for file, hash in pairs(old_hashes) do
+				actual_hashes[file] = md5(file)
+			end
+			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
+
+			-- now let's have a look at new files and compare them with old ones
+			for file, hash in pairs(new_hashes) do
+				local old_hash = old_hashes[file]
+				if old_hash == new_hashes[file] then
+					-- files are same
+				elseif old_hash == nil then
+					-- newly added file, does not exist in old system
+				else
+					-- old and new files are different
+				end
+				-- delete matched files, so we will get list of files
+				-- that are in old installation, but not in new one
+				old_hashes[file] = nil
+			end
+
+			for file, hash in pairs(old_hashes) do
+				-- files that are present only in old installation
+			end
 
 			--[[
 			We need to check if config files has been modified. If they were,
