@@ -112,11 +112,14 @@ local function pkg_unpack(operations, status)
 			
 			local content = hash_file:read("*all")
 			local t_file = io.open("/root/hashes-" .. dir .. ".txt", "w")
-
+			
 			t_file:write(content)
 			hash_file:close()
 			t_file:close()
-
+			
+			local x_file = io.open("/root/pkg-" .. dir, "w")
+			x_file:write(op.name)
+			x_file:close()
 
 			--[[
 			We need to check if config files has been modified. If they were,
