@@ -134,19 +134,16 @@ local function pkg_unpack(operations, status)
 			else
 				old_hashes = make_table(file)
 			end
-			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
 
 			-- load table with new hashes
 			local file = utils.load(pkg_dir .. "/control/files-md5sum")
 			local new_hashes = make_table(file)
-			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
 
 			-- make table with actual hashes, so we can check if user changed something
 			local actual_hashes = {}
 			for file, hash in pairs(old_hashes) do
 				actual_hashes[file] = md5(file)
 			end
-			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
 
 			-- now let's have a look at new files and compare them with old ones
 			for file, hash in pairs(new_hashes) do
