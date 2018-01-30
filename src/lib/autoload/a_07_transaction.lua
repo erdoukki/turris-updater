@@ -45,6 +45,7 @@ local state_dump = state_dump
 local sync = sync
 local log_event = log_event
 local sha256 = sha256
+local md5 = md5
 local system_reboot = system_reboot
 
 module "transaction"
