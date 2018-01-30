@@ -34,6 +34,7 @@ local pairs = pairs
 local unpack = unpack
 local io = io
 local table = table
+local string = string
 local backend = require "backend"
 local utils = require "utils"
 local journal = require "journal"
