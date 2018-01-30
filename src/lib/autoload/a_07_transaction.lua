@@ -48,7 +48,27 @@ local system_reboot = system_reboot
 
 module "transaction"
 
--- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
+-- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions make_table
+
+--[[
+Make table from ...files-md5sum file in form
+	filename = hash	
+]]
+local function make_table(data)
+    local table = {}
+    local value = nil
+    -- NOTE: I was not able to do it in one loop,
+    --          so here's little trick            
+    for string in string.gmatch(data, "([^%s]+)%s") do
+        if value == nil then
+            value = string
+        else
+            table[string] = value
+            value = nil
+        end
+    end
+	return table
+end
 
 -- Wrap the call to the maintainer script, and store any possible errors for later use
 local function script(errors_collected, name, suffix, ...)
