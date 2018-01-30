@@ -144,8 +144,9 @@ local function pkg_unpack(operations, status)
 			if file == nil then
 				WARN("File " .. op.name .. " does not exists!")
 			else
-				INFO("file: <" .. op.name .. ">" .. file)
+				INFO("file: <" .. op.name .. ">" .. file .. "\n")
 				local old_hashes = make_table(file)
+				INFO(">>>\n" .. utils.mold_table(old_hashes) .. "\n")
 			end
 
 			INFO(utils.mold_table(old_hashes))
