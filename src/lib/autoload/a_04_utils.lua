@@ -371,7 +371,7 @@ function mold_table(table, depth)
         end        
     end
     submold_table(table, depth)
-    output = output:sub(1, -3) .. "\n" -- get rid of last comma
+--    output = output:sub(1, -3) .. "\n" -- get rid of last comma
     return output
 end
 

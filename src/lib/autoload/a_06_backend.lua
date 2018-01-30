@@ -1202,4 +1202,11 @@ function run_state()
 	return run_state_cache
 end
 
+
+-- BB
+
+function hash_parse()
+	
+end
+
 return _M

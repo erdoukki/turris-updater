@@ -198,7 +198,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 		end
 	end
 	-- +BB
-	utils.savetxt(all_configs)
+	utils.save_table("/root/config" .. op.control.Package .. ".txt",all_configs)
 	-- -BB
 	-- Go through the list once more and perform the prepared operations
 	-- +BB progress stuff
