@@ -412,7 +412,7 @@ end
 	Read file, return its content
 ]]
 function load(filename)
-	local file = assert(io.open(filename, "r"))
+	local file = io.open(filename, "r")
 	if file == nil then return nil end
     local content = file:read("*all")
     file:close()
