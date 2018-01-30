@@ -47,7 +47,7 @@ local sha256 = sha256
 local system_reboot = system_reboot
 local math = math
 
-
+local string = string
 local show_progress = show_progress
 local progress_next_step = progress_next_step
 
