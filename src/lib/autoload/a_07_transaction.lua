@@ -144,13 +144,13 @@ local function pkg_unpack(operations, status)
 			local dir_t = utils.split(pkg_dir, "/")
 			local dir = dir_t[#dir_t]
 
-			utils.save("/root/old-hashes-" .. op.name .. ".txt", mold_table(old_hashes))
+			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
 
 			-- load table with new hashes
 			-- /usr/share/updater/unpacked/*/control/files-md5sum
 
 			local new_hashes = make_table(utils.load(pkg_dir .. "control/files-md5sum"))
-			utils.save("/root/new-hashes-" .. op.name .. ".txt", mold_table(new_hashes))
+			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
 
 			--[[
 			We need to check if config files has been modified. If they were,
