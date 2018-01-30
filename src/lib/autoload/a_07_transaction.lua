@@ -139,7 +139,8 @@ local function pkg_unpack(operations, status)
 ]]
 
 		-- load table with currently installed hashes
-			local old_hashes = make_table(utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum"))
+			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
+			local old_hashes = make_table(file)
 
 			local dir_t = utils.split(pkg_dir, "/")
 			local dir = dir_t[#dir_t]
@@ -149,7 +150,8 @@ local function pkg_unpack(operations, status)
 			-- load table with new hashes
 			-- /usr/share/updater/unpacked/*/control/files-md5sum
 
-			local new_hashes = make_table(utils.load(pkg_dir .. "control/files-md5sum"))
+			local file = utils.load(pkg_dir .. "control/files-md5sum")
+			local new_hashes = make_table(file)
 			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
 
 			--[[

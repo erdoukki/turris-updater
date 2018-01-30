@@ -412,7 +412,7 @@ end
 	Read file, return its content
 ]]
 function load(filename)
-    local file = io.open(filename, "r")
+    local file = assert(io.open(filename, "r"))
     local content = file:read("*all")
     file:close()
     return content
