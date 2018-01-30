@@ -107,6 +107,8 @@ local function pkg_unpack(operations, status)
 
 -- BB testing hashes
 			local hash_file = io.open(pkg_dir .. "control/files-md5sum", "r" )
+			INFO(pkg_dir .. "control/files-md5sum")
+			INFO(hash_file)
 			local t_file = io.open("/root/hashes.txt", "w")
 			t_file:write(hash_file)
 			hash_file:close()
