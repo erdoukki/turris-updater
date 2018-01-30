@@ -92,6 +92,62 @@ local function pkg_unpack(operations, status)
 			local files, dirs, configs, control = backend.pkg_examine(pkg_dir)
 			to_remove[control.Package] = true
 			to_install[control.Package] = files
+-- BB testing hashes
+
+--[[
+	package name is in `op.name`
+	temporary package name (e.g. IIASkEJA) can be extracted from `pkg_dir`
+
+	hashes of installed files are in /usr/lib/opkg/info/<op.name>.files-md5sum
+	hashes of new files are in <pkg_dir>/control/files-md5sum
+
+	So we will take table of installed hashes a compare it with table of hashes to install
+	to get changes 
+]]
+			-- load table with currently installed hashes
+			local old_hashes = {}
+			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
+			if file == nil then
+				-- when we are installing something new, old hashes do not exist yet
+				WARN("File " .. op.name .. " does not exists!")
+			else
+				old_hashes = make_table(file)
+			end
+			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
+
+			-- load table with new hashes
+			local file = utils.load(pkg_dir .. "/control/files-md5sum")
+			local new_hashes = make_table(file)
+			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
+
+			-- make table with actual hashes, so we can check if user changed something
+			local actual_hashes = {}
+			for file, hash in pairs(old_hashes) do
+				actual_hashes[file] = md5(file)
+			end
+			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
+
+			-- now let's have a look at new files and compare them with old ones
+			for file, hash in pairs(new_hashes) do
+				local old_hash = old_hashes[file]
+				local actual_hash = actual_hashes[file]
+				if old_hash == new_hashes[file] then
+					-- files are same
+				elseif old_hash == nil then
+					-- newly added file, does not exist in old system
+				elseif actual_hash ~= old_hash then
+					-- user changed the file, we should backup it
+				else
+					-- old and new files are different
+				end
+				-- delete matched files, so we will get list of files
+				-- that are in old installation, but not in new one
+				old_hashes[file] = nil
+			end
+
+			for file, hash in pairs(old_hashes) do
+				-- files that are present only in old installation
+			end
 			--[[
 			We need to check if config files has been modified. If they were,
 			they should not be overwritten.
