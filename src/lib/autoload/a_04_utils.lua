@@ -304,4 +304,24 @@ function table_overlay(table)
 	})
 end
 
+--[[
+	Read file, return its content
+]]
+function load(filename)
+	local file = io.open(filename, "r")
+	if file == nil then return nil end
+    local content = file:read("*all")
+    file:close()
+    return content
+end
+
+--[[
+	Save content to file
+]]
+function save(filename, content)
+	local file = io.open(filename, "w")
+	file:write(content)
+	file:close()
+end
+
 return _M
