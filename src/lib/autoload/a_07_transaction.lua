@@ -144,12 +144,12 @@ local function pkg_unpack(operations, status)
 			if file == nil then
 				WARN("File " .. op.name .. " does not exists!")
 			else
-				INFO("file: <" .. op.name .. ">" .. file .. "\n")
-				local old_hashes = make_table(file)
-				INFO(">>>\n" .. utils.mold_table(old_hashes) .. "\n")
+			--	INFO("file: <" .. op.name .. ">" .. file .. "\n")
+				old_hashes = make_table(file)
+			--	INFO(">>>\n" .. utils.mold_table(old_hashes) .. "\n")
 			end
 
-			INFO(utils.mold_table(old_hashes))
+			-- INFO(utils.mold_table(old_hashes))
 
 			local dir_t = utils.split(pkg_dir, "/")
 			local dir = dir_t[#dir_t]
@@ -157,8 +157,6 @@ local function pkg_unpack(operations, status)
 			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
 
 			-- load table with new hashes
-			-- /usr/share/updater/unpacked/*/control/files-md5sum
-
 			local file = utils.load(pkg_dir .. "/control/files-md5sum")
 			local new_hashes = make_table(file)
 			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
