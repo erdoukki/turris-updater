@@ -139,12 +139,15 @@ local function pkg_unpack(operations, status)
 ]]
 
 		-- load table with currently installed hashes
+			local old_hashes = {}
 			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
 			if file == nil then
 				WARN("File " .. op.name .. " does not exists!")
 			else
 				local old_hashes = make_table(file)
 			end
+
+			INFO(utils.mold_table(old_hashes))
 
 			local dir_t = utils.split(pkg_dir, "/")
 			local dir = dir_t[#dir_t]
