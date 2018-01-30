@@ -53,7 +53,27 @@ local progress_next_step = progress_next_step
 
 module "transaction"
 
--- luacheck: globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
+-- luacheck: make_table globals perform recover empty perform_queue recover_pretty queue_remove queue_install queue_install_downloaded approval_hash task_report cleanup_actions
+
+--[[
+Make table from ...files-md5sum file in form
+	filename = hash	
+]]
+local function make_table(data)
+    local table = {}
+    local value = nil
+    -- NOTE: I was not able to do it in one loop,
+    --          so here's little trick            
+    for string in string.gmatch(data, "([^%s]+)%s") do
+        if value == nil then
+            value = string
+        else
+            table[string] = value
+            value = nil
+        end
+    end
+	return table
+end
 
 -- Wrap the call to the maintainer script, and store any possible errors for later use
 local function script(errors_collected, name, suffix, ...)
@@ -106,20 +126,31 @@ local function pkg_unpack(operations, status)
 			to_install[control.Package] = files
 
 -- BB testing hashes
-			local hash_file = io.open(pkg_dir .. "/control/files-md5sum", "r" )
+
+--[[
+	package name is in `op.name`
+	temporary package name (e.g. IIASkEJA) can be extracted from `pkg_dir`
+
+	hashes of installed files are in /usr/lib/opkg/info/<op.name>.files-md5sum
+	hashes of new files are in <pkg_dir>/control/files-md5sum
+
+	So we will take table of installed hashes a compare it with table of hashes to install
+	to get changes 
+]]
+
+		-- load table with currently installed hashes
+			local old_hashes = make_table(load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum"))
+
 			local dir_t = utils.split(pkg_dir, "/")
 			local dir = dir_t[#dir_t]
-			
-			local content = hash_file:read("*all")
-			local t_file = io.open("/root/hashes-" .. dir .. ".txt", "w")
-			
-			t_file:write(content)
-			hash_file:close()
-			t_file:close()
-			
-			local x_file = io.open("/root/pkg-" .. dir, "w")
-			x_file:write(op.name)
-			x_file:close()
+
+			utils.save("/root/old-hashes-" .. op.name .. ".txt", mold_table(old_hashes))
+
+			-- load table with new hashes
+			-- /usr/share/updater/unpacked/*/control/files-md5sum
+
+			local new_hashes = make_table(load(pkg_dir .. "control/files-md5sum"))
+			utils.save("/root/new-hashes-" .. op.name .. ".txt", mold_table(new_hashes))
 
 			--[[
 			We need to check if config files has been modified. If they were,

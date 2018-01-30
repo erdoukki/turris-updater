@@ -408,5 +408,20 @@ function split(inputstr, sep)
 	return t
 end
 
+--[[
+	Read file, return its content
+]]
+function load(filename)
+    local file = io.open(filename, "r")
+    local content = file:read("*all")
+    file:close()
+    return content
+end
+
+function save(filename, content)
+	local file = io.open(filename, "w")
+	file:write(content)
+	file:close()
+end
 
 return _M
