@@ -198,6 +198,8 @@ local function pkg_unpack(operations, status)
 				-- files that are present only in old installation
 			end
 
+			save_table("changed_pkgs.txt", pkgs_with_change)
+
 			--[[
 			We need to check if config files has been modified. If they were,
 			they should not be overwritten.
