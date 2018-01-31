@@ -107,6 +107,7 @@ local function pkg_unpack(operations, status)
 	local cleanup_actions = {}
 	-- +BB progress stuff
 	progress_next_step(utils.tablelength(operations))
+	local pkgs_with_change = {}
 	-- -BB
 	for _, op in ipairs(operations) do
 		-- +BB reporting
@@ -140,7 +141,6 @@ local function pkg_unpack(operations, status)
 ]]
 
 			-- load table with currently installed hashes
-			local pkgs_with_change = {}
 			local old_hashes = {}
 			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
 			if file == nil then
@@ -198,8 +198,6 @@ local function pkg_unpack(operations, status)
 				-- files that are present only in old installation
 			end
 
-			utils.save_table("changed_pkgs.txt", pkgs_with_change)
-
 			--[[
 			We need to check if config files has been modified. If they were,
 			they should not be overwritten.
@@ -242,6 +240,7 @@ local function pkg_unpack(operations, status)
 		end
 	end
 	utils.save_table("/root/to-install.txt", to_install)
+	utils.save_table("changed_pkgs.txt", pkgs_with_change)
 	return to_remove, to_install, plan, dir_cleanups, cleanup_actions
 end
 
