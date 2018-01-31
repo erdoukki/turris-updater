@@ -224,6 +224,7 @@ local function pkg_unpack(operations, status)
 				old_configs = old_configs,
 				control = control,
 				reboot_immediate = op.reboot == "immediate",
+				files_to_copy = files_to_copy,
 				files_changed = files_changed
 			})
 			if op.replan then
