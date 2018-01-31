@@ -140,6 +140,7 @@ local function pkg_unpack(operations, status)
 ]]
 
 			-- load table with currently installed hashes
+			local pkgs_with_change = {}
 			local old_hashes = {}
 			local file = utils.load("/usr/lib/opkg/info/" .. op.name .. ".files-md5sum")
 			if file == nil then
@@ -183,6 +184,7 @@ local function pkg_unpack(operations, status)
 				elseif actual_hash ~= old_hash then
 					-- user changed the file, we should backup it
 					files_changed[#files_changed + 1] = file
+					pkgs_with_change[op.name] = true
 				else
 					-- old and new files are different
 					files_to_copy[#files_to_copy + 1] = file
