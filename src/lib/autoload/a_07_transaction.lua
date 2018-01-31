@@ -159,7 +159,12 @@ local function pkg_unpack(operations, status)
 			-- make table with actual hashes, so we can check if user changed something
 			local actual_hashes = {}
 			for file, hash in pairs(old_hashes) do
-				actual_hashes[file] = md5(utils.load(file))
+				local content = utils.load(file)
+				if content == nil then
+					INFO("File " .. file .. " can't be loaded!")
+				else
+					actual_hashes[file] = md5(content)
+				end
 			end
 			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
 
