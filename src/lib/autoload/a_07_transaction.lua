@@ -162,18 +162,30 @@ local function pkg_unpack(operations, status)
 			end
 			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
 
+			-- prepare tables with results
+
+			-- NOTE: maybe we should check for user changed files only
+			--		the rest doesn't matter I guess (we will copy all of them)
+
+			local files_to_copy = {} -- files to copy (same or newly added)
+			local files_changed = {} -- files changed by user (should be backuped)
+
 			-- now let's have a look at new files and compare them with old ones
 			for file, hash in pairs(new_hashes) do
 				local old_hash = old_hashes[file]
 				local actual_hash = actual_hashes[file]
 				if old_hash == new_hashes[file] then
 					-- files are same
+					files_to_copy[#files_to_copy + 1] = file
 				elseif old_hash == nil then
 					-- newly added file, does not exist in old system
+					files_to_copy[#files_to_copy + 1] = file
 				elseif actual_hash ~= old_hash then
 					-- user changed the file, we should backup it
+					files_changed[#files_changed + 1] = file
 				else
 					-- old and new files are different
+					files_to_copy[#files_to_copy + 1] = file
 				end
 				-- delete matched files, so we will get list of files
 				-- that are in old installation, but not in new one
@@ -211,7 +223,8 @@ local function pkg_unpack(operations, status)
 				configs = configs,
 				old_configs = old_configs,
 				control = control,
-				reboot_immediate = op.reboot == "immediate"
+				reboot_immediate = op.reboot == "immediate",
+				files_changed = files_changed
 			})
 			if op.replan then
 				cleanup_actions.reexec = true
@@ -261,12 +274,11 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			-- +BB reporting
 			show_progress("Build list for package " .. op.control.Package .. " " .. op.control.Version)
 			-- -BB
-			local steal = backend.steal_configs(status, installed_confs, op.configs)
-
-			utils.save_table("/root/plan-" .. op.control.Package ..  ".txt", op)
-			
+			local steal = backend.steal_configs(status, installed_confs, op.configs)			
 			utils.table_merge(op.old_configs, steal)
 			utils.table_merge(all_configs, op.old_configs)
+
+			utils.save_table("/root/plan-" .. op.control.Package ..  ".txt", op)
 		end
 	end
 	-- +BB
