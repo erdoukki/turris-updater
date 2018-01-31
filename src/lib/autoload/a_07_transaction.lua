@@ -188,8 +188,9 @@ local function pkg_unpack(operations, status)
 					files_to_copy[#files_to_copy + 1] = file
 				elseif actual_hash ~= old_hash then
 					-- user changed the file, we should backup it
-					files_changed[#files_changed + 1] = file
-					pkgs_with_change[op.name] = true
+				--	files_changed[#files_changed + 1] = file
+					table.insert(files_changed, file)
+					table.insert(pkgs_with_change, file)
 				else
 					-- old and new files are different
 					files_to_copy[#files_to_copy + 1] = file
