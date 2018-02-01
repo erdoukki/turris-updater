@@ -44,6 +44,7 @@ local state_dump = state_dump
 local sync = sync
 local log_event = log_event
 local md5 = md5
+local md5_file = md5_file
 local sha256 = sha256
 local system_reboot = system_reboot
 local math = math
@@ -160,6 +161,9 @@ local function pkg_unpack(operations, status)
 			local actual_hashes = {}
 			for file, hash in pairs(old_hashes) do
 				local content = utils.load(file)
+				local lmd5 = md5(content)
+				local cmd5 = md5_file(file)
+				if lmd5 ~= cmd5 then utils.save("/root/differ" .. op.name .. ".txt", "true")
 				if content == nil then
 					INFO("File " .. file .. " can't be loaded!")
 				else
