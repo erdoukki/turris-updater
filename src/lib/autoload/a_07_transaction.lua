@@ -46,6 +46,7 @@ local log_event = log_event
 local md5 = md5
 local md5_file = md5_file
 local sha256 = sha256
+local sha256_file = sha256_file
 local system_reboot = system_reboot
 local math = math
 
@@ -166,7 +167,9 @@ local function pkg_unpack(operations, status)
 				else
 					local lmd5 = md5(content)
 					local cmd5 = md5_file(file)
-					local out = "lua: " .. lmd5 .. " c:" .. cmd5
+					local lsha = sha256(content)
+					local csha = sha256_file(file)
+					local out = "lua: " .. lmd5 .. " c:" .. cmd5 .. "\n" .. "lua:" .. lsha .. " c:" .. csha .. "\n"
 					utils.save("/root/hashckeck-" .. op.name .. ".txt", out)
 					actual_hashes[file] = md5(content)
 				end
