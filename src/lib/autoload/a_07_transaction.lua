@@ -161,12 +161,12 @@ local function pkg_unpack(operations, status)
 			local actual_hashes = {}
 			for file, hash in pairs(old_hashes) do
 				local content = utils.load(file)
-				local lmd5 = md5(content)
-				local cmd5 = md5_file(file)
-				if lmd5 ~= cmd5 then utils.save("/root/differ" .. op.name .. ".txt", "true") end
 				if content == nil then
 					INFO("File " .. file .. " can't be loaded!")
 				else
+					local lmd5 = md5(content)
+					local cmd5 = md5_file(file)
+					if lmd5 ~= cmd5 then utils.save("/root/differ" .. op.name .. ".txt", "true") end
 					actual_hashes[file] = md5(content)
 				end
 			end
