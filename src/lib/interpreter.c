@@ -701,7 +701,7 @@ static int lua_md5_file(lua_State *L) {
 	fclose(f);
 	buffer[fsize] = 0;
 	uint8_t result[MD5_DIGEST_SIZE];
-	md5_buffer(buffer, len, result);
+	md5_buffer(buffer, fsize, result);
 	push_hex(L, result, sizeof result);
 	free(buffer);
 	return 1;	
