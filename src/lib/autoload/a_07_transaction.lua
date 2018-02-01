@@ -166,7 +166,8 @@ local function pkg_unpack(operations, status)
 				else
 					local lmd5 = md5(content)
 					local cmd5 = md5_file(file)
-					if lmd5 ~= cmd5 then utils.save("/root/differ" .. op.name .. ".txt", "true") end
+					local out = "lua: " .. lmd5 .. " c:" .. cmd5
+					if lmd5 ~= cmd5 then utils.save("/root/differ" .. op.name .. ".txt", out) end
 					actual_hashes[file] = md5(content)
 				end
 			end
