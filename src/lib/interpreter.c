@@ -716,7 +716,7 @@ static int lua_sha256(lua_State *L) {
 	return 1;
 }
 
-static int sha256_file(lua_State *L) {
+static int lua_sha256_file(lua_State *L) {
 	size_t len;
 	const char *filename = luaL_checklstring(L, 1, &len);
 	FILE *f = fopen(filename, "rb");
