@@ -41,6 +41,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // The name used in lua registry to store stuff
 #define REGISTRY_NAME "libupdater"
@@ -687,6 +689,24 @@ static int lua_md5(lua_State *L) {
 	return 1;
 }
 
+static int lua_md5_file(lua_State *L) {
+	size_t len;
+	const char *filename = luaL_checklstring(L, 1, &len);
+	FILE = fopen(filename, "rb");
+	fseek (f, 0, SEEK_END);
+	long fsize = ftell(f);
+	fseek(f, 0, SEEK_SET);
+	char *buffer = malloc(fsize + 1);
+	fread(buffer, fsize, 1, f);
+	fclose(f);
+	buffer[fsize] = 0;
+	uint8_t result[MD5_DIGEST_SIZE];
+	md5_buffer(buffer, len, result);
+	push_hex(L, result, sizeof result);
+	free(buffer);
+	return 1;	
+}
+
 static int lua_sha256(lua_State *L) {
 	size_t len;
 	const char *buffer = luaL_checklstring(L, 1, &len);
@@ -771,6 +791,7 @@ static const struct injected_func injected_funcs[] = {
 	{ lua_sync, "sync" },
 	{ lua_setenv, "setenv" },
 	{ lua_md5, "md5" },
+	{ lua_md5_file, "md5_file" },
 	{ lua_sha256, "sha256" },
 	{ lua_reexec, "reexec" },
 	{ lua_uri_internal_get, "uri_internal_get" },
