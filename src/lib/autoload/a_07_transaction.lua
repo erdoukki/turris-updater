@@ -149,12 +149,12 @@ local function pkg_unpack(operations, status)
 			else
 				old_hashes = make_table(file)
 			end
-		--	utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
+			utils.save("/root/old-hashes-" .. op.name .. ".txt", utils.mold_table(old_hashes))
 
 			-- load table with new hashes
 			local file = utils.load(pkg_dir .. "/control/files-md5sum")
 			local new_hashes = make_table(file)
-		--	utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
+			utils.save("/root/new-hashes-" .. op.name .. ".txt", utils.mold_table(new_hashes))
 
 			-- make table with actual hashes, so we can check if user changed something
 			local actual_hashes = {}
@@ -166,7 +166,7 @@ local function pkg_unpack(operations, status)
 					actual_hashes[file] = md5(content)
 				end
 			end
-			-- utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
+			utils.save("/root/act-hashes-" .. op.name .. ".txt", utils.mold_table(actual_hashes))
 
 			-- prepare tables with results
 
@@ -288,7 +288,7 @@ local function pkg_move(status, plan, early_remove, errors_collected)
 			utils.table_merge(op.old_configs, steal)
 			utils.table_merge(all_configs, op.old_configs)
 
-			-- utils.save_table("/root/plan-" .. op.control.Package ..  ".txt", op)
+			utils.save_table("/root/plan-" .. op.control.Package ..  ".txt", op)
 		end
 	end
 	-- +BB
