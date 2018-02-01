@@ -692,7 +692,7 @@ static int lua_md5(lua_State *L) {
 static int lua_md5_file(lua_State *L) {
 	size_t len;
 	const char *filename = luaL_checklstring(L, 1, &len);
-	FILE = fopen(filename, "rb");
+	FILE *f = fopen(filename, "rb");
 	fseek (f, 0, SEEK_END);
 	long fsize = ftell(f);
 	fseek(f, 0, SEEK_SET);
