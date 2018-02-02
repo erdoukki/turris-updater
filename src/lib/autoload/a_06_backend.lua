@@ -46,8 +46,6 @@ local move = move
 local ls = ls
 local md5 = md5
 local sha256 = sha256
-local md5_file = md5_file
-local sha256_file = sha256_file
 local DBG = DBG
 local WARN = WARN
 local utils = require "utils"
@@ -1063,10 +1061,14 @@ function config_modified(file, hash)
 	else
 		error("Can not determine hash algorithm to use for hash " .. hash)
 	end
-	local got = hasher(file):lower()
-	hash = hash:lower()
-	DBG("Hashes: " .. got .. " " .. hash)
-	return hasher(file):lower() ~= hash:lower()
+	if utils.file_exists(file) then
+		local got = hasher(file):lower()
+		hash = hash:lower()
+		DBG("Hashes: " .. got .. " " .. hash)
+		return hasher(file):lower() ~= hash:lower()
+	else
+		return nil
+	end
 end
 
 --[[
