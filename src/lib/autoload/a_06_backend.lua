@@ -521,11 +521,7 @@ function pkg_examine(dir)
 	if cidx then
 		for l in cidx:lines() do
 			local fname = l:match("^%s*(/.*%S)%s*")
-			local content, err = utils.slurp(data_dir .. fname)
-			if not content then
-				error(err)
-			end
-			conffiles[fname] = sha256(content)
+			conffiles[fname] = sha256_file(data_dir .. fname)
 		end
 		cidx:close()
 	end
