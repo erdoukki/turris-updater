@@ -44,8 +44,8 @@ local lstat = lstat
 local mkdir = mkdir
 local move = move
 local ls = ls
-local md5_file = md5_file
-local sha256_file = sha256_file
+local md5 = md5
+local sha256 = sha256
 local DBG = DBG
 local WARN = WARN
 local utils = require "utils"
@@ -521,7 +521,11 @@ function pkg_examine(dir)
 	if cidx then
 		for l in cidx:lines() do
 			local fname = l:match("^%s*(/.*%S)%s*")
-			conffiles[fname] = sha256_file(data_dir .. fname)
+			local content, err = utils.slurp(data_dir .. fname)
+			if not content then
+				error(err)
+			end
+			conffiles[fname] = sha256(content)
 		end
 		cidx:close()
 	end
@@ -1041,26 +1045,31 @@ function config_modified(file, hash)
 	local len = hash:len()
 	local hasher
 	if len == 32 then
-		hasher = md5_file
+		hasher = md5
 	elseif len == 64 then
-		hasher = sha256_file
+		hasher = sha256
 	elseif len > 32 and len < 64 then
 		--[[
 		Something produces (produced?) truncated hashes in the status file.
 		Handle them. This is likely already fixed, but we don't want to
 		crash on system that still have these broken hashes around.
 		]]
-		hasher = function (file)
+		hasher = function (content)
 			WARN("Truncated sha256 hash seen, using bug compat mode")
-			return sha256_file(file):sub(1, len)
+			return sha256(content):sub(1, len)
 		end
 	else
 		error("Can not determine hash algorithm to use for hash " .. hash)
 	end
-	local got = hasher(file):lower()
-	hash = hash:lower()
-	DBG("Hashes: " .. got .. " " .. hash)
-	return hasher(file):lower() ~= hash:lower()
+	local content = utils.slurp(file)
+	if content then
+		local got = hasher(content):lower()
+		hash = hash:lower()
+		DBG("Hashes: " .. got .. " " .. hash)
+		return hasher(content):lower() ~= hash:lower()
+	else
+		return nil
+	end
 end
 
 --[[
