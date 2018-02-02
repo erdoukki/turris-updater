@@ -46,6 +46,8 @@ local move = move
 local ls = ls
 local md5 = md5
 local sha256 = sha256
+local md5_file = md5_file
+local sha256_file = sha256_file
 local DBG = DBG
 local WARN = WARN
 local utils = require "utils"
@@ -1045,31 +1047,26 @@ function config_modified(file, hash)
 	local len = hash:len()
 	local hasher
 	if len == 32 then
-		hasher = md5
+		hasher = md5_file
 	elseif len == 64 then
-		hasher = sha256
+		hasher = sha256_file
 	elseif len > 32 and len < 64 then
 		--[[
 		Something produces (produced?) truncated hashes in the status file.
 		Handle them. This is likely already fixed, but we don't want to
 		crash on system that still have these broken hashes around.
 		]]
-		hasher = function (content)
+		hasher = function (file)
 			WARN("Truncated sha256 hash seen, using bug compat mode")
-			return sha256(content):sub(1, len)
+			return sha256_file(file):sub(1, len)
 		end
 	else
 		error("Can not determine hash algorithm to use for hash " .. hash)
 	end
-	local content = utils.slurp(file)
-	if content then
-		local got = hasher(content):lower()
-		hash = hash:lower()
-		DBG("Hashes: " .. got .. " " .. hash)
-		return hasher(content):lower() ~= hash:lower()
-	else
-		return nil
-	end
+	local got = hasher(file):lower()
+	hash = hash:lower()
+	DBG("Hashes: " .. got .. " " .. hash)
+	return hasher(file):lower() ~= hash:lower()
 end
 
 --[[
