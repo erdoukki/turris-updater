@@ -305,7 +305,7 @@ function table_overlay(table)
 end
 
 --[[
-	Read file, return its content
+Read file, return its content
 ]]
 function load(filename)
 	local file = io.open(filename, "r")
@@ -316,12 +316,21 @@ function load(filename)
 end
 
 --[[
-	Save content to file
+Save content to file
 ]]
 function save(filename, content)
 	local file = io.open(filename, "w")
 	file:write(content)
 	file:close()
 end
+
+--[[
+Check wheter file exists
+]]
+function file_exists(name)
+	local f=io.open(name,"r")
+	if f~=nil then io.close(f) return true else return false end
+ end
+
 
 return _M
