@@ -695,7 +695,7 @@ static int lua_md5_file(lua_State *L) {
 	fseek (f, 0, SEEK_END);
 	long fsize = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	const char *buffer = malloc(fsize + 1);
+	char *buffer = malloc(fsize + 1);
 	fread(buffer, fsize, 1, f);
 	fclose(f);
 	buffer[fsize] = 0;
@@ -722,7 +722,7 @@ static int lua_sha256_file(lua_State *L) {
 	fseek (f, 0, SEEK_END);
 	long fsize = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	const char *buffer = malloc(fsize + 1);
+	char *buffer = malloc(fsize + 1);
 	fread(buffer, fsize, 1, f);
 	fclose(f);
 	buffer[fsize] = 0;
