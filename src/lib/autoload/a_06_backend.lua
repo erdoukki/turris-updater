@@ -51,6 +51,7 @@ local md5_file = md5_file
 local sha256_file = sha256_file
 local DBG = DBG
 local WARN = WARN
+local INFO = INFO
 local utils = require "utils"
 local locks = require "locks"
 
