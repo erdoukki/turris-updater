@@ -872,6 +872,7 @@ function pkg_merge_files(dir, dirs, files, configs)
 	end)
 	for _, new_dir in ipairs(dirs_sorted) do
 		DBG("Creating dir " .. new_dir)
+		INFO("---------------Creating dir " .. new_dir)
 		local dir = root_dir .. new_dir
 		if not dir_ensure(dir) then
 			-- There is some file that user created. Move it away
