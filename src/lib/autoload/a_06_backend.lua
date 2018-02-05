@@ -32,6 +32,7 @@ local unpack = unpack
 local io = io
 local os = os
 local table = table
+local string = string
 local setenv = setenv
 local getcwd = getcwd
 local mkdtemp = mkdtemp
@@ -56,7 +57,7 @@ local locks = require "locks"
 module "backend"
 
 -- Functions and variables used in other files
--- luacheck: globals pkg_temp_dir repo_parse status_dump pkg_unpack pkg_examine collision_check installed_confs steal_configs dir_ensure pkg_merge_files pkg_merge_control pkg_config_info pkg_cleanup_files control_cleanup version_cmp version_match script_run  run_state
+-- luacheck: globals pkg_temp_dir repo_parse status_dump pkg_unpack pkg_examine collision_check installed_confs steal_configs dir_ensure pkg_merge_files pkg_merge_control pkg_config_info pkg_cleanup_files control_cleanup version_cmp version_match script_run run_state pkg_hash_check
 -- Variables that we want to access from outside (ex. for testing purposes)
 -- luacheck: globals status_file info_dir root_dir pkg_temp_dir cmd_timeout cmd_kill_timeout dir_opkg_collided
 -- Functions that we want to access from outside (ex. for testing purposes)
@@ -333,6 +334,81 @@ local function pkg_files(pkg_name)
 		return {}
 	end
 end
+
+--[[
+Make table from ...files-md5sum file in form
+	filename = hash	
+]]
+local function make_table(data)
+    local table = {}
+	local value = nil
+	if data then
+		for line in data:gmatch("[^\n]+") do
+            value, key = line:match('^(%S+)%s*(.*)')
+            table[key] = value
+		end
+	end
+	return table
+end
+
+-- Check hashes of files installed from package
+function pkg_hash_check(pkg_name) --, pkg_dir)
+	local pkg_dir = ""
+	-- BB testing hashes
+
+--[[
+	package name is in `op.name`
+	temporary package name (e.g. IIASkEJA) can be extracted from `pkg_dir`
+
+	hashes of installed files are in /usr/lib/opkg/info/<op.name>.files-md5sum
+	hashes of new files are in <pkg_dir>/control/files-md5sum
+
+	So we will take table of installed hashes a compare it with table of hashes to install
+	to get changes 
+]]
+	-- load table with currently installed hashes
+	local old_hashes = {}
+	local file = utils.load(info_dir .. pkg_name .. ".files-md5sum")
+	if file == nil then
+		-- when we are installing something new, old hashes do not exist yet
+		WARN("File " .. pkg_name .. " does not exists!")
+	else
+		old_hashes = make_table(file)
+	end
+
+	-- load table with new hashes
+	local file = utils.load(pkg_dir .. "/control/files-md5sum")
+	local new_hashes = make_table(file)
+
+	-- make table with actual hashes, so we can check if user changed something
+	local actual_hashes = {}
+	for file, hash in pairs(old_hashes) do
+		actual_hashes[file] = md5(file)
+	end
+
+	-- now let's have a look at new files and compare them with old ones
+	for file, hash in pairs(new_hashes) do
+		local old_hash = old_hashes[file]
+		local actual_hash = actual_hashes[file]
+		if old_hash == new_hashes[file] then
+			-- files are same
+		elseif old_hash == nil then
+			-- newly added file, does not exist in old system
+		elseif actual_hash ~= old_hash then
+			-- user changed the file, we should backup it
+		else
+			-- old and new files are different
+		end
+		-- delete matched files, so we will get list of files
+		-- that are in old installation, but not in new one
+		old_hashes[file] = nil
+	end
+
+	for file, hash in pairs(old_hashes) do
+		-- files that are present only in old installation
+	end
+end
+
 
 -- Merge additions into target (both are tables)
 local function merge(target, additions)
