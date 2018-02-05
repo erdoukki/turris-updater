@@ -352,43 +352,6 @@ local function make_table(data)
 	return table
 end
 
--- Check hashes of files installed from package
-function pkg_hash_check(pkg_name, pkg_dir)
-	-- load table with currently installed hashes
-	local old_hashes = {}
-	local file = utils.load(info_dir .. pkg_name .. ".files-md5sum")
-	if file == nil then
-		-- when we are installing something new, old hashes do not exist yet
-		WARN("File " .. pkg_name .. " does not exists!")
-	else
-		old_hashes = make_table(file)
-	end
-
-	-- load table with new hashes
-	local file = utils.load(pkg_dir .. "/control/files-md5sum")
-	local new_hashes = make_table(file)
-
-	-- make table with actual hashes, so we can check if user changed something
-	local actual_hashes = {}
-	for file, hash in pairs(old_hashes) do
-		actual_hashes[file] = md5(file)
-	end
-
-	-- now let's have a look at new files and compare them with old ones
-	for file, hash in pairs(new_hashes) do
-		local old_hash = old_hashes[file]
-		local actual_hash = actual_hashes[file]
-		if actual_hash ~= old_hash then
-			-- user changed the file, we should backup it
---			user_path_move(file)
-		end
-		-- delete matched files, so we will get list of files
-		-- that are in old installation, but not in new one
-		old_hashes[file] = nil
-	end
-end
-
-
 -- Merge additions into target (both are tables)
 local function merge(target, additions)
 	for n, v in pairs(additions) do
@@ -907,6 +870,44 @@ function pkg_merge_files(dir, dirs, files, configs)
 	utils.cleanup_dirs({dir})
 	return true
 end
+
+
+-- Check hashes of files installed from package
+function pkg_hash_check(pkg_name, pkg_dir)
+	-- load table with currently installed hashes
+	local old_hashes = {}
+	local file = utils.load(info_dir .. pkg_name .. ".files-md5sum")
+	if file == nil then
+		-- when we are installing something new, old hashes do not exist yet
+		WARN("File " .. pkg_name .. " does not exists!")
+	else
+		old_hashes = make_table(file)
+	end
+
+	-- load table with new hashes
+	local file = utils.load(pkg_dir .. "/control/files-md5sum")
+	local new_hashes = make_table(file)
+
+	-- make table with actual hashes, so we can check if user changed something
+	local actual_hashes = {}
+	for file, hash in pairs(old_hashes) do
+		actual_hashes[file] = md5(file)
+	end
+
+	-- now let's have a look at new files and compare them with old ones
+	for file, hash in pairs(new_hashes) do
+		local old_hash = old_hashes[file]
+		local actual_hash = actual_hashes[file]
+		if actual_hash ~= old_hash then
+			-- user changed the file, we should backup it
+--			user_path_move(file)
+		end
+		-- delete matched files, so we will get list of files
+		-- that are in old installation, but not in new one
+		old_hashes[file] = nil
+	end
+end
+
 
 --[[
 Merge all the control file belonging to the package into place. Also, provide
