@@ -97,7 +97,7 @@ local function pkg_unpack(operations, status)
 
 			local changed_files = {}
 			if op.name then
-				changed_files = backend.pkg_hash_check(op.name, pkg_dir)
+				backend.pkg_hash_check(op.name, pkg_dir)
 			end
 
 			--[[
@@ -127,7 +127,6 @@ local function pkg_unpack(operations, status)
 				configs = configs,
 				old_configs = old_configs,
 				control = control,
-				changed_files = changed_files,
 				reboot_immediate = op.reboot == "immediate"
 			})
 			if op.replan then

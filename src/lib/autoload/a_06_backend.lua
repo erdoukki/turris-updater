@@ -352,20 +352,7 @@ local function make_table(data)
 end
 
 -- Check hashes of files installed from package
-function pkg_hash_check(pkg_name) --, pkg_dir)
-	local pkg_dir = ""
-	-- BB testing hashes
-
---[[
-	package name is in `op.name`
-	temporary package name (e.g. IIASkEJA) can be extracted from `pkg_dir`
-
-	hashes of installed files are in /usr/lib/opkg/info/<op.name>.files-md5sum
-	hashes of new files are in <pkg_dir>/control/files-md5sum
-
-	So we will take table of installed hashes a compare it with table of hashes to install
-	to get changes 
-]]
+function pkg_hash_check(pkg_name, pkg_dir)
 	-- load table with currently installed hashes
 	local old_hashes = {}
 	local file = utils.load(info_dir .. pkg_name .. ".files-md5sum")
@@ -390,22 +377,13 @@ function pkg_hash_check(pkg_name) --, pkg_dir)
 	for file, hash in pairs(new_hashes) do
 		local old_hash = old_hashes[file]
 		local actual_hash = actual_hashes[file]
-		if old_hash == new_hashes[file] then
-			-- files are same
-		elseif old_hash == nil then
-			-- newly added file, does not exist in old system
-		elseif actual_hash ~= old_hash then
+		if actual_hash ~= old_hash then
 			-- user changed the file, we should backup it
-		else
-			-- old and new files are different
+			user_path_move(file)
 		end
 		-- delete matched files, so we will get list of files
 		-- that are in old installation, but not in new one
 		old_hashes[file] = nil
-	end
-
-	for file, hash in pairs(old_hashes) do
-		-- files that are present only in old installation
 	end
 end
 
