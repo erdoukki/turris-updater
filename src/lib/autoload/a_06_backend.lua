@@ -901,7 +901,7 @@ function pkg_hash_check(pkg_name, pkg_dir)
 		if actual_hash ~= old_hash then
 			-- user changed the file, we should backup it
 		--	user_path_move(file)
-			INFO("=================>" .. file)
+			INFO("=================>" .. file .. " [" .. actual_hash .. "]-[" .. old_hash .. "]")
 		end
 		-- delete matched files, so we will get list of files
 		-- that are in old installation, but not in new one
