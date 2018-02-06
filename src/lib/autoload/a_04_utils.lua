@@ -333,4 +333,47 @@ function file_exists(name)
  end
 
 
+ --[[
+    mold value other than table
+]]
+function mold_value(value)
+    local output = ""
+    if type(value) == "string" then
+        output = '"' .. value .. '"'
+    else
+        output = tostring(value)
+	end
+	return output
+end
+
+function mold_table(table, depth)
+	if depth == nil then depth = 999 end -- max allowed depth
+    local indent = ""
+	local output = ""
+	-- TODO: write just `mold` that wouldn't need this
+	if type(table) ~= "table" then
+		return mold_value(table)
+	end
+	function submold_table(table, depth)
+		if depth < 1 then return nil end
+        for key, value in pairs(table) do
+            if type(value) == "table" then
+                output = output .. indent .. key .. " = {\n"
+				indent = indent .. "  "
+				depth = depth - 1
+				submold_table(value, depth)
+				depth = depth + 1
+                indent = indent:sub(1, -3)          -- unindent
+--                output = output:sub(1, -3) .. "\n"  -- get rid of last comma
+                output = output .. indent .. "}\n"
+            else
+                output = output .. indent .. key .. " = " .. mold_value(value) .. ",\n"
+            end
+        end        
+    end
+    submold_table(table, depth)
+--    output = output:sub(1, -3) .. "\n" -- get rid of last comma
+    return output
+end
+
 return _M

@@ -119,7 +119,7 @@ local function pkg_unpack(operations, status)
 			else
 				old_configs = configs or {}
 			end
-			INFO("_________________________________________________________\n" .. dir .. "\n" .. old_configs .. "\n")
+			INFO("_________________________________________________________\n" .. dir .. "\n" .. mold_table(old_configs) .. "\n")
 			table.insert(plan, {
 				op = "install",
 				dir = pkg_dir,
