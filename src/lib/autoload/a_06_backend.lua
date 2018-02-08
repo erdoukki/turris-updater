@@ -506,6 +506,7 @@ In all three cases, the file names are keys, not values.
 In case of errors, it raises error()
 ]]
 function pkg_examine(dir)
+	INFO("**pkg_examine->" .. dir)
 	local data_dir = dir .. "/data"
 	-- Events to wait for
 	local events = {}
